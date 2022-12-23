@@ -1,0 +1,13 @@
+##grflangid 0x01
+#This is the English language file
+
+# GRF name and description definitions
+
+STR_GRF_NAME        : German Extrazoom Waypoints
+STR_GRF_DESC 		: {GOLD}German Extra-Zoom Waypoint Set {}{}Graphics and code by {RED}Garlic_Bread42{}Many thanks to {RED}Timberwolf {GOLD} for providing and teaching his Voxel-toolchain, {RED}Peter1138, 2TallTyler, andythenorth{GOLD} and the whole {RED}Discord{GOLD}-community for advice, help, remarks and suggestions during development of this set. 
+
+STR_VERSION_22723                                               :1.2.0 (r22723)
+
+STR_NAME_STATCLASS	: Testing Stations
+
+STR_NAME_STATION	: GETS Waypoints

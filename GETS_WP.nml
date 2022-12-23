@@ -1,0 +1,3754 @@
+/*
+GRF block defines everything - grf-ID is unique
+// An inline comment is preceded by two slashes
+// If you need multiple lines, each line gets two slashes in front
+*/
+
+grf {
+			grfid: "SA\0A\0A" ;
+			name: string(STR_GRF_NAME) ;
+			desc: string(STR_GRF_DESC) ;
+			version: 1;
+			min_compatible_version: 36;
+	}		
+	
+			
+/* Using parametrized sprite layouts are only valid in OpenTTD r22723 or later.
+ * Earlier versions will choke on those and otherwise disable the NewGRF.
+ */
+			if (version_openttd(1,2,0,22723) > openttd_version) {
+				error(FATAL, REQUIRES_OPENTTD, string(STR_VERSION_22723));}
+
+//################
+//###CARGOTABLE###
+//################
+				
+
+cargotable {
+//Default cargos
+   PASS, MAIL, COAL, FOOD, GOLD, GOOD, GRAI, IORE, LVST, OIL_, PAPR, STEL, VALU, WHEA, WOOD,
+
+//Tropical cargos
+   CORE, DIAM, FRUT, MAIZ, RUBR, WATR, 
+
+//ECS
+   AORE, BDMT, BRCK, CERA, CERE, CMNT, DYES, FERT, FICR, FISH, GLAS, LIME, OLSD, PETR, PLAS, POTA, RFPR, SAND, SULP, TOUR, VEHI, WDPR, WOOL, 
+   
+//FIRS
+   ACID, ALUM, BEAN, BEER, BOOM, CLAY, CHLO, CASS, CBLK, COAT, CTAR, CSTI, COKE, ENSP, EOIL, FECR, FMSP, FRVG, GRVL, IRON, KAOL, LYE_, METL, MNO2, MILK, MNSP, NICK, NITR, NUTS, O2__, NH3_, PEAT, PHOS, PIPE, PORE, QLME, RCYC, SALT, SASH, SCMT, SGBT, SGCN, SLAG, SOAP, STAL, STCB, STSE, STSH, STST, STWR, TYRE, VBOD, VENG, VPTS, JAVA, COPR, SUGR, ZINC,
+   
+   SCRP, //Old scrap metal
+   
+//OTIS
+	BAKE, CHSE, ELTR, FUEL, FURN, MEAT, MPTS, OTI1, OTI2, OYST, PCL_, SEED, SESP, TATO, TEXT, TWOD,
+
+//2TT
+
+CIGR, COBL, MOLS, NKOR, NUKF, NUKW, OILI, OILD, TBCO, WSTE,
+
+//Toyland
+
+BATT, BUBL, COLA, CTCD, FZDR, PLST, SWET, TOFF, TOYS,
+
+//SPECIAL
+
+URAN, POWR,	
+  
+
+}
+
+
+//##########################
+//###Template for Sprites###				
+//##########################
+
+template template_waypoint_1x (x,y) {
+    [   0, 0, 64, 80, -32,   -50 ]
+    [  72, 0, 64, 80, -32,   -50 ] }
+
+template template_waypoint_2x (x,y) {
+    [   0, 0, 128, 160, -64,  -100]
+    [ 144, 0, 128, 160, -64,  -100] }
+				
+template template_waypoint_4x (x,y) {
+    [   0, 0, 256, 320, -128, -200]
+    [ 288, 0, 256, 320, -128, -200] }
+
+
+//Only used for Reiterstellwerk    
+    
+template template_STW_Faller1_1x (x,y) {
+    [   0, 0, 64, 80, -56,   -62]
+    [  72, 0, 64, 80,  -8,   -62] }
+
+template template_STW_Faller1_2x (x,y) {
+    [   0, 0, 128, 160, -112, -124]
+    [ 144, 0, 128, 160, -16,  -124] }
+				
+template template_STW_Faller1_4x (x,y) {
+    [   0, 0, 256, 320, -224, -248]
+    [ 288, 0, 256, 320,  -32, -248] }     
+
+
+//#################
+//###Trapeztafel###				
+//#################
+
+
+
+spriteset(spriteset_Trapeztafel_L, "gfx/Trapeztafel_L/Trapeztafel_L_1x_8bpp.png")
+									{ template_waypoint_1x(0, 0)}
+				
+	alternative_sprites (spriteset_Trapeztafel_L, ZOOM_LEVEL_NORMAL, BIT_DEPTH_32BPP, "gfx/Trapeztafel_L/Trapeztafel_L_1x_32bpp.png", "gfx/Trapeztafel_L/Trapeztafel_L_1x_mask.png")
+									{ template_waypoint_1x(0, 0)}
+				
+	alternative_sprites (spriteset_Trapeztafel_L, ZOOM_LEVEL_IN_2X, BIT_DEPTH_32BPP, "gfx/Trapeztafel_L/Trapeztafel_L_2x_32bpp.png", "gfx/Trapeztafel_L/Trapeztafel_L_2x_mask.png")
+									{ template_waypoint_2x(0, 0)}
+				
+	alternative_sprites (spriteset_Trapeztafel_L, ZOOM_LEVEL_IN_4X, BIT_DEPTH_32BPP, "gfx/Trapeztafel_L/Trapeztafel_L_4x_32bpp.png", "gfx/Trapeztafel_L/Trapeztafel_L_4x_mask.png")
+									{ template_waypoint_4x(0, 0)}
+
+spritelayout Trapeztafel_L_X(a) {
+    ground {
+        sprite: 1012 + a; // prevent railtype offset
+    }
+    building {
+        sprite: spriteset_Trapeztafel_L (0); // first sprite in active spriteset
+        xoffset: 0;
+        yoffset: 12;
+        zoffset: 0;        
+        xextent: 16;
+        yextent: 4;
+        zextent: 4;
+        recolour_mode: RECOLOUR_REMAP;
+        palette:       PALETTE_USE_DEFAULT;
+    }
+}
+
+spritelayout Trapeztafel_L_Y(a) {
+    ground {
+        sprite: 1011 + a; // prevent railtype offset
+    }
+    building {
+        sprite: spriteset_Trapeztafel_L(1); // second sprite in active spriteset
+        xoffset: 12;
+        yoffset: 0;
+        zoffset: 0;        
+        xextent: 4;
+        yextent: 16;
+        zextent: 4;
+        recolour_mode: RECOLOUR_REMAP;
+        palette:       PALETTE_USE_DEFAULT;
+    }
+}
+
+item(FEAT_STATIONS, Trapeztafel_L) {
+    property {
+        /* The class allows to sort stations into categories. */
+        class:                  "WAYP";
+        /* If no other NewGRF provides this class before us, we have to name it */
+        classname:              string(STR_NAME_STATCLASS);
+        /* Name of this particular station */
+        name:                   string(STR_NAME_STATION);
+        draw_pylon_tiles: 0;
+        hide_wire_tiles: 0xFF;
+        
+    }
+    graphics {
+        sprite_layouts: [Trapeztafel_L_X(0), Trapeztafel_L_Y(0)];
+        purchase: spriteset_Trapeztafel_L;
+        
+    }
+}
+
+
+spriteset(spriteset_Trapeztafel_R, "gfx/Trapeztafel_R/Trapeztafel_R_1x_8bpp.png")
+									{ template_waypoint_1x(0, 0)}
+				
+	alternative_sprites (spriteset_Trapeztafel_R, ZOOM_LEVEL_NORMAL, BIT_DEPTH_32BPP, "gfx/Trapeztafel_R/Trapeztafel_R_1x_32bpp.png", "gfx/Trapeztafel_R/Trapeztafel_R_1x_mask.png")
+									{ template_waypoint_1x(0, 0)}
+				
+	alternative_sprites (spriteset_Trapeztafel_R, ZOOM_LEVEL_IN_2X, BIT_DEPTH_32BPP, "gfx/Trapeztafel_R/Trapeztafel_R_2x_32bpp.png", "gfx/Trapeztafel_R/Trapeztafel_R_2x_mask.png")
+									{ template_waypoint_2x(0, 0)}
+				
+	alternative_sprites (spriteset_Trapeztafel_R, ZOOM_LEVEL_IN_4X, BIT_DEPTH_32BPP, "gfx/Trapeztafel_R/Trapeztafel_R_4x_32bpp.png", "gfx/Trapeztafel_R/Trapeztafel_R_4x_mask.png")
+									{ template_waypoint_4x(0, 0)}
+
+spritelayout Trapeztafel_R_X(a) {
+    ground {
+        sprite: 1012 + a; // prevent railtype offset
+    }
+    building {
+        sprite: spriteset_Trapeztafel_R (0); // first sprite in active spriteset
+        xoffset: 0;
+        yoffset: 0;
+        zoffset: 0;        
+        xextent: 16;
+        yextent: 4;
+        zextent: 4;
+        recolour_mode: RECOLOUR_REMAP;
+        palette:       PALETTE_USE_DEFAULT;
+    }
+}
+
+spritelayout Trapeztafel_R_Y(a) {
+    ground {
+        sprite: 1011 + a; // prevent railtype offset
+    }
+    building {
+        sprite: spriteset_Trapeztafel_R(1); // second sprite in active spriteset
+        xoffset: 0;
+        yoffset: 0;
+        zoffset: 0;        
+        xextent: 4;
+        yextent: 16;
+        zextent: 4;
+        recolour_mode: RECOLOUR_REMAP;
+        palette:       PALETTE_USE_DEFAULT;
+    }
+}
+
+item(FEAT_STATIONS, Trapeztafel_R) {
+    property {
+        /* The class allows to sort stations into categories. */
+        class:                  "WAYP";
+        /* If no other NewGRF provides this class before us, we have to name it */
+        classname:              string(STR_NAME_STATCLASS);
+        /* Name of this particular station */
+        name:                   string(STR_NAME_STATION);
+        draw_pylon_tiles: 0;
+        hide_wire_tiles: 0xFF;
+        
+    }
+    graphics {
+        sprite_layouts: [Trapeztafel_R_X(0), Trapeztafel_R_Y(0)];
+        purchase: spriteset_Trapeztafel_R;
+        
+    }
+}
+//####################
+//###Vorsignaltafel###				
+//####################
+
+
+
+spriteset(spriteset_Vorsignaltafel_L, "gfx/Vorsignaltafel_L/Vorsignaltafel_L_1x_8bpp.png")
+									{ template_waypoint_1x(0, 0)}
+				
+	alternative_sprites (spriteset_Vorsignaltafel_L, ZOOM_LEVEL_NORMAL, BIT_DEPTH_32BPP, "gfx/Vorsignaltafel_L/Vorsignaltafel_L_1x_32bpp.png", "gfx/Vorsignaltafel_L/Vorsignaltafel_L_1x_mask.png")
+									{ template_waypoint_1x(0, 0)}
+				
+	alternative_sprites (spriteset_Vorsignaltafel_L, ZOOM_LEVEL_IN_2X, BIT_DEPTH_32BPP, "gfx/Vorsignaltafel_L/Vorsignaltafel_L_2x_32bpp.png", "gfx/Vorsignaltafel_L/Vorsignaltafel_L_2x_mask.png")
+									{ template_waypoint_2x(0, 0)}
+				
+	alternative_sprites (spriteset_Vorsignaltafel_L, ZOOM_LEVEL_IN_4X, BIT_DEPTH_32BPP, "gfx/Vorsignaltafel_L/Vorsignaltafel_L_4x_32bpp.png", "gfx/Vorsignaltafel_L/Vorsignaltafel_L_4x_mask.png")
+									{ template_waypoint_4x(0, 0)}
+
+spritelayout Vorsignaltafel_L_X(a) {
+    ground {
+        sprite: 1012 + a; // prevent railtype offset
+    }
+    building {
+        sprite: spriteset_Vorsignaltafel_L (0); // first sprite in active spriteset
+        xoffset: 0;
+        yoffset: 12;
+        zoffset: 0;        
+        xextent: 16;
+        yextent: 4;
+        zextent: 4;
+        recolour_mode: RECOLOUR_REMAP;
+        palette:       PALETTE_USE_DEFAULT;
+    }
+}
+
+spritelayout Vorsignaltafel_L_Y(a) {
+    ground {
+        sprite: 1011 + a; // prevent railtype offset
+    }
+    building {
+        sprite: spriteset_Vorsignaltafel_L(1); // second sprite in active spriteset
+        xoffset: 12;
+        yoffset: 0;
+        zoffset: 0;        
+        xextent: 4;
+        yextent: 16;
+        zextent: 4;
+        recolour_mode: RECOLOUR_REMAP;
+        palette:       PALETTE_USE_DEFAULT;
+    }
+}
+
+item(FEAT_STATIONS, Vorsignaltafel_L) {
+    property {
+        /* The class allows to sort stations into categories. */
+        class:                  "WAYP";
+        /* If no other NewGRF provides this class before us, we have to name it */
+        classname:              string(STR_NAME_STATCLASS);
+        /* Name of this particular station */
+        name:                   string(STR_NAME_STATION);
+        draw_pylon_tiles: 0;
+        hide_wire_tiles: 0xFF;
+        
+    }
+    graphics {
+        sprite_layouts: [Vorsignaltafel_L_X(0), Vorsignaltafel_L_Y(0)];
+        purchase: spriteset_Vorsignaltafel_L;
+        
+    }
+}
+
+
+spriteset(spriteset_Vorsignaltafel_R, "gfx/Vorsignaltafel_R/Vorsignaltafel_R_1x_8bpp.png")
+									{ template_waypoint_1x(0, 0)}
+				
+	alternative_sprites (spriteset_Vorsignaltafel_R, ZOOM_LEVEL_NORMAL, BIT_DEPTH_32BPP, "gfx/Vorsignaltafel_R/Vorsignaltafel_R_1x_32bpp.png", "gfx/Vorsignaltafel_R/Vorsignaltafel_R_1x_mask.png")
+									{ template_waypoint_1x(0, 0)}
+				
+	alternative_sprites (spriteset_Vorsignaltafel_R, ZOOM_LEVEL_IN_2X, BIT_DEPTH_32BPP, "gfx/Vorsignaltafel_R/Vorsignaltafel_R_2x_32bpp.png", "gfx/Vorsignaltafel_R/Vorsignaltafel_R_2x_mask.png")
+									{ template_waypoint_2x(0, 0)}
+				
+	alternative_sprites (spriteset_Vorsignaltafel_R, ZOOM_LEVEL_IN_4X, BIT_DEPTH_32BPP, "gfx/Vorsignaltafel_R/Vorsignaltafel_R_4x_32bpp.png", "gfx/Vorsignaltafel_R/Vorsignaltafel_R_4x_mask.png")
+									{ template_waypoint_4x(0, 0)}
+
+spritelayout Vorsignaltafel_R_X(a) {
+    ground {
+        sprite: 1012 + a; // prevent railtype offset
+    }
+    building {
+        sprite: spriteset_Vorsignaltafel_R (0); // first sprite in active spriteset
+        xoffset: 0;
+        yoffset: 0;
+        zoffset: 0;        
+        xextent: 16;
+        yextent: 4;
+        zextent: 4;
+        recolour_mode: RECOLOUR_REMAP;
+        palette:       PALETTE_USE_DEFAULT;
+    }
+}
+
+spritelayout Vorsignaltafel_R_Y(a) {
+    ground {
+        sprite: 1011 + a; // prevent railtype offset
+    }
+    building {
+        sprite: spriteset_Vorsignaltafel_R(1); // second sprite in active spriteset
+        xoffset: 0;
+        yoffset: 0;
+        zoffset: 0;        
+        xextent: 4;
+        yextent: 16;
+        zextent: 4;
+        recolour_mode: RECOLOUR_REMAP;
+        palette:       PALETTE_USE_DEFAULT;
+    }
+}
+
+item(FEAT_STATIONS, Vorsignaltafel_R) {
+    property {
+        /* The class allows to sort stations into categories. */
+        class:                  "WAYP";
+        /* If no other NewGRF provides this class before us, we have to name it */
+        classname:              string(STR_NAME_STATCLASS);
+        /* Name of this particular station */
+        name:                   string(STR_NAME_STATION);
+        draw_pylon_tiles: 0;
+        hide_wire_tiles: 0xFF;
+        
+    }
+    graphics {
+        sprite_layouts: [Vorsignaltafel_R_X(0), Vorsignaltafel_R_Y(0)];
+        purchase: spriteset_Vorsignaltafel_R;
+        
+    }
+}
+
+
+//#################
+//###Vorsignal_3###				
+//#################
+
+
+
+spriteset(spriteset_Vorsignal_3_L, "gfx/Vorsignal_3_L/Vorsignal_3_L_1x_8bpp.png")
+									{ template_waypoint_1x(0, 0)}
+				
+	alternative_sprites (spriteset_Vorsignal_3_L, ZOOM_LEVEL_NORMAL, BIT_DEPTH_32BPP, "gfx/Vorsignal_3_L/Vorsignal_3_L_1x_32bpp.png", "gfx/Vorsignal_3_L/Vorsignal_3_L_1x_mask.png")
+									{ template_waypoint_1x(0, 0)}
+				
+	alternative_sprites (spriteset_Vorsignal_3_L, ZOOM_LEVEL_IN_2X, BIT_DEPTH_32BPP, "gfx/Vorsignal_3_L/Vorsignal_3_L_2x_32bpp.png", "gfx/Vorsignal_3_L/Vorsignal_3_L_2x_mask.png")
+									{ template_waypoint_2x(0, 0)}
+				
+	alternative_sprites (spriteset_Vorsignal_3_L, ZOOM_LEVEL_IN_4X, BIT_DEPTH_32BPP, "gfx/Vorsignal_3_L/Vorsignal_3_L_4x_32bpp.png", "gfx/Vorsignal_3_L/Vorsignal_3_L_4x_mask.png")
+									{ template_waypoint_4x(0, 0)}
+
+spritelayout Vorsignal_3_L_X(a) {
+    ground {
+        sprite: 1012 + a; // prevent railtype offset
+    }
+    building {
+        sprite: spriteset_Vorsignal_3_L (0); // first sprite in active spriteset
+        xoffset: 0;
+        yoffset: 12;
+        zoffset: 0;        
+        xextent: 16;
+        yextent: 4;
+        zextent: 4;
+        recolour_mode: RECOLOUR_REMAP;
+        palette:       PALETTE_USE_DEFAULT;
+    }
+}
+
+spritelayout Vorsignal_3_L_Y(a) {
+    ground {
+        sprite: 1011 + a; // prevent railtype offset
+    }
+    building {
+        sprite: spriteset_Vorsignal_3_L(1); // second sprite in active spriteset
+        xoffset: 12;
+        yoffset: 0;
+        zoffset: 0;        
+        xextent: 4;
+        yextent: 16;
+        zextent: 4;
+        recolour_mode: RECOLOUR_REMAP;
+        palette:       PALETTE_USE_DEFAULT;
+    }
+}
+
+item(FEAT_STATIONS, Vorsignal_3_L) {
+    property {
+        /* The class allows to sort stations into categories. */
+        class:                  "WAYP";
+        /* If no other NewGRF provides this class before us, we have to name it */
+        classname:              string(STR_NAME_STATCLASS);
+        /* Name of this particular station */
+        name:                   string(STR_NAME_STATION);
+        draw_pylon_tiles: 0;
+        hide_wire_tiles: 0xFF;
+        
+    }
+    graphics {
+        sprite_layouts: [Vorsignal_3_L_X(0), Vorsignal_3_L_Y(0)];
+        purchase: spriteset_Vorsignal_3_L;
+        
+    }
+}
+
+
+spriteset(spriteset_Vorsignal_3_R, "gfx/Vorsignal_3_R/Vorsignal_3_R_1x_8bpp.png")
+									{ template_waypoint_1x(0, 0)}
+				
+	alternative_sprites (spriteset_Vorsignal_3_R, ZOOM_LEVEL_NORMAL, BIT_DEPTH_32BPP, "gfx/Vorsignal_3_R/Vorsignal_3_R_1x_32bpp.png", "gfx/Vorsignal_3_R/Vorsignal_3_R_1x_mask.png")
+									{ template_waypoint_1x(0, 0)}
+				
+	alternative_sprites (spriteset_Vorsignal_3_R, ZOOM_LEVEL_IN_2X, BIT_DEPTH_32BPP, "gfx/Vorsignal_3_R/Vorsignal_3_R_2x_32bpp.png", "gfx/Vorsignal_3_R/Vorsignal_3_R_2x_mask.png")
+									{ template_waypoint_2x(0, 0)}
+				
+	alternative_sprites (spriteset_Vorsignal_3_R, ZOOM_LEVEL_IN_4X, BIT_DEPTH_32BPP, "gfx/Vorsignal_3_R/Vorsignal_3_R_4x_32bpp.png", "gfx/Vorsignal_3_R/Vorsignal_3_R_4x_mask.png")
+									{ template_waypoint_4x(0, 0)}
+
+spritelayout Vorsignal_3_R_X(a) {
+    ground {
+        sprite: 1012 + a; // prevent railtype offset
+    }
+    building {
+        sprite: spriteset_Vorsignal_3_R (0); // first sprite in active spriteset
+        xoffset: 0;
+        yoffset: 0;
+        zoffset: 0;        
+        xextent: 16;
+        yextent: 4;
+        zextent: 4;
+        recolour_mode: RECOLOUR_REMAP;
+        palette:       PALETTE_USE_DEFAULT;
+    }
+}
+
+spritelayout Vorsignal_3_R_Y(a) {
+    ground {
+        sprite: 1011 + a; // prevent railtype offset
+    }
+    building {
+        sprite: spriteset_Vorsignal_3_R(1); // second sprite in active spriteset
+        xoffset: 0;
+        yoffset: 0;
+        zoffset: 0;        
+        xextent: 4;
+        yextent: 16;
+        zextent: 4;
+        recolour_mode: RECOLOUR_REMAP;
+        palette:       PALETTE_USE_DEFAULT;
+    }
+}
+
+item(FEAT_STATIONS, Vorsignal_3_R) {
+    property {
+        /* The class allows to sort stations into categories. */
+        class:                  "WAYP";
+        /* If no other NewGRF provides this class before us, we have to name it */
+        classname:              string(STR_NAME_STATCLASS);
+        /* Name of this particular station */
+        name:                   string(STR_NAME_STATION);
+        draw_pylon_tiles: 0;
+        hide_wire_tiles: 0xFF;
+        
+    }
+    graphics {
+        sprite_layouts: [Vorsignal_3_R_X(0), Vorsignal_3_R_Y(0)];
+        purchase: spriteset_Vorsignal_3_R;
+        
+    }
+}
+
+
+//#################
+//###Vorsignal_2###				
+//#################
+
+
+
+spriteset(spriteset_Vorsignal_2_L, "gfx/Vorsignal_2_L/Vorsignal_2_L_1x_8bpp.png")
+									{ template_waypoint_1x(0, 0)}
+				
+	alternative_sprites (spriteset_Vorsignal_2_L, ZOOM_LEVEL_NORMAL, BIT_DEPTH_32BPP, "gfx/Vorsignal_2_L/Vorsignal_2_L_1x_32bpp.png", "gfx/Vorsignal_2_L/Vorsignal_2_L_1x_mask.png")
+									{ template_waypoint_1x(0, 0)}
+				
+	alternative_sprites (spriteset_Vorsignal_2_L, ZOOM_LEVEL_IN_2X, BIT_DEPTH_32BPP, "gfx/Vorsignal_2_L/Vorsignal_2_L_2x_32bpp.png", "gfx/Vorsignal_2_L/Vorsignal_2_L_2x_mask.png")
+									{ template_waypoint_2x(0, 0)}
+				
+	alternative_sprites (spriteset_Vorsignal_2_L, ZOOM_LEVEL_IN_4X, BIT_DEPTH_32BPP, "gfx/Vorsignal_2_L/Vorsignal_2_L_4x_32bpp.png", "gfx/Vorsignal_2_L/Vorsignal_2_L_4x_mask.png")
+									{ template_waypoint_4x(0, 0)}
+
+spritelayout Vorsignal_2_L_X(a) {
+    ground {
+        sprite: 1012 + a; // prevent railtype offset
+    }
+    building {
+        sprite: spriteset_Vorsignal_2_L (0); // first sprite in active spriteset
+        xoffset: 0;
+        yoffset: 12;
+        zoffset: 0;        
+        xextent: 16;
+        yextent: 4;
+        zextent: 4;
+        recolour_mode: RECOLOUR_REMAP;
+        palette:       PALETTE_USE_DEFAULT;
+    }
+}
+
+spritelayout Vorsignal_2_L_Y(a) {
+    ground {
+        sprite: 1011 + a; // prevent railtype offset
+    }
+    building {
+        sprite: spriteset_Vorsignal_2_L(1); // second sprite in active spriteset
+        xoffset: 12;
+        yoffset: 0;
+        zoffset: 0;        
+        xextent: 4;
+        yextent: 16;
+        zextent: 4;
+        recolour_mode: RECOLOUR_REMAP;
+        palette:       PALETTE_USE_DEFAULT;
+    }
+}
+
+item(FEAT_STATIONS, Vorsignal_2_L) {
+    property {
+        /* The class allows to sort stations into categories. */
+        class:                  "WAYP";
+        /* If no other NewGRF provides this class before us, we have to name it */
+        classname:              string(STR_NAME_STATCLASS);
+        /* Name of this particular station */
+        name:                   string(STR_NAME_STATION);
+        draw_pylon_tiles: 0;
+        hide_wire_tiles: 0xFF;
+        
+    }
+    graphics {
+        sprite_layouts: [Vorsignal_2_L_X(0), Vorsignal_2_L_Y(0)];
+        purchase: spriteset_Vorsignal_2_L;
+        
+    }
+}
+
+
+spriteset(spriteset_Vorsignal_2_R, "gfx/Vorsignal_2_R/Vorsignal_2_R_1x_8bpp.png")
+									{ template_waypoint_1x(0, 0)}
+				
+	alternative_sprites (spriteset_Vorsignal_2_R, ZOOM_LEVEL_NORMAL, BIT_DEPTH_32BPP, "gfx/Vorsignal_2_R/Vorsignal_2_R_1x_32bpp.png", "gfx/Vorsignal_2_R/Vorsignal_2_R_1x_mask.png")
+									{ template_waypoint_1x(0, 0)}
+				
+	alternative_sprites (spriteset_Vorsignal_2_R, ZOOM_LEVEL_IN_2X, BIT_DEPTH_32BPP, "gfx/Vorsignal_2_R/Vorsignal_2_R_2x_32bpp.png", "gfx/Vorsignal_2_R/Vorsignal_2_R_2x_mask.png")
+									{ template_waypoint_2x(0, 0)}
+				
+	alternative_sprites (spriteset_Vorsignal_2_R, ZOOM_LEVEL_IN_4X, BIT_DEPTH_32BPP, "gfx/Vorsignal_2_R/Vorsignal_2_R_4x_32bpp.png", "gfx/Vorsignal_2_R/Vorsignal_2_R_4x_mask.png")
+									{ template_waypoint_4x(0, 0)}
+
+spritelayout Vorsignal_2_R_X(a) {
+    ground {
+        sprite: 1012 + a; // prevent railtype offset
+    }
+    building {
+        sprite: spriteset_Vorsignal_2_R (0); // first sprite in active spriteset
+        xoffset: 0;
+        yoffset: 0;
+        zoffset: 0;        
+        xextent: 16;
+        yextent: 4;
+        zextent: 4;
+        recolour_mode: RECOLOUR_REMAP;
+        palette:       PALETTE_USE_DEFAULT;
+    }
+}
+
+spritelayout Vorsignal_2_R_Y(a) {
+    ground {
+        sprite: 1011 + a; // prevent railtype offset
+    }
+    building {
+        sprite: spriteset_Vorsignal_2_R(1); // second sprite in active spriteset
+        xoffset: 0;
+        yoffset: 0;
+        zoffset: 0;        
+        xextent: 4;
+        yextent: 16;
+        zextent: 4;
+        recolour_mode: RECOLOUR_REMAP;
+        palette:       PALETTE_USE_DEFAULT;
+    }
+}
+
+item(FEAT_STATIONS, Vorsignal_2_R) {
+    property {
+        /* The class allows to sort stations into categories. */
+        class:                  "WAYP";
+        /* If no other NewGRF provides this class before us, we have to name it */
+        classname:              string(STR_NAME_STATCLASS);
+        /* Name of this particular station */
+        name:                   string(STR_NAME_STATION);
+        draw_pylon_tiles: 0;
+        hide_wire_tiles: 0xFF;
+        
+    }
+    graphics {
+        sprite_layouts: [Vorsignal_2_R_X(0), Vorsignal_2_R_Y(0)];
+        purchase: spriteset_Vorsignal_2_R;
+        
+    }
+}
+
+
+//#################
+//###Vorsignal_1###				
+//#################
+
+
+
+spriteset(spriteset_Vorsignal_1_L, "gfx/Vorsignal_1_L/Vorsignal_1_L_1x_8bpp.png")
+									{ template_waypoint_1x(0, 0)}
+				
+	alternative_sprites (spriteset_Vorsignal_1_L, ZOOM_LEVEL_NORMAL, BIT_DEPTH_32BPP, "gfx/Vorsignal_1_L/Vorsignal_1_L_1x_32bpp.png", "gfx/Vorsignal_1_L/Vorsignal_1_L_1x_mask.png")
+									{ template_waypoint_1x(0, 0)}
+				
+	alternative_sprites (spriteset_Vorsignal_1_L, ZOOM_LEVEL_IN_2X, BIT_DEPTH_32BPP, "gfx/Vorsignal_1_L/Vorsignal_1_L_2x_32bpp.png", "gfx/Vorsignal_1_L/Vorsignal_1_L_2x_mask.png")
+									{ template_waypoint_2x(0, 0)}
+				
+	alternative_sprites (spriteset_Vorsignal_1_L, ZOOM_LEVEL_IN_4X, BIT_DEPTH_32BPP, "gfx/Vorsignal_1_L/Vorsignal_1_L_4x_32bpp.png", "gfx/Vorsignal_1_L/Vorsignal_1_L_4x_mask.png")
+									{ template_waypoint_4x(0, 0)}
+
+spritelayout Vorsignal_1_L_X(a) {
+    ground {
+        sprite: 1012 + a; // prevent railtype offset
+    }
+    building {
+        sprite: spriteset_Vorsignal_1_L (0); // first sprite in active spriteset
+        xoffset: 0;
+        yoffset: 12;
+        zoffset: 0;        
+        xextent: 16;
+        yextent: 4;
+        zextent: 4;
+        recolour_mode: RECOLOUR_REMAP;
+        palette:       PALETTE_USE_DEFAULT;
+    }
+}
+
+spritelayout Vorsignal_1_L_Y(a) {
+    ground {
+        sprite: 1011 + a; // prevent railtype offset
+    }
+    building {
+        sprite: spriteset_Vorsignal_1_L(1); // second sprite in active spriteset
+        xoffset: 12;
+        yoffset: 0;
+        zoffset: 0;        
+        xextent: 4;
+        yextent: 16;
+        zextent: 4;
+        recolour_mode: RECOLOUR_REMAP;
+        palette:       PALETTE_USE_DEFAULT;
+    }
+}
+
+item(FEAT_STATIONS, Vorsignal_1_L) {
+    property {
+        /* The class allows to sort stations into categories. */
+        class:                  "WAYP";
+        /* If no other NewGRF provides this class before us, we have to name it */
+        classname:              string(STR_NAME_STATCLASS);
+        /* Name of this particular station */
+        name:                   string(STR_NAME_STATION);
+        draw_pylon_tiles: 0;
+        hide_wire_tiles: 0xFF;
+        
+    }
+    graphics {
+        sprite_layouts: [Vorsignal_1_L_X(0), Vorsignal_1_L_Y(0)];
+        purchase: spriteset_Vorsignal_1_L;
+        
+    }
+}
+
+
+spriteset(spriteset_Vorsignal_1_R, "gfx/Vorsignal_1_R/Vorsignal_1_R_1x_8bpp.png")
+									{ template_waypoint_1x(0, 0)}
+				
+	alternative_sprites (spriteset_Vorsignal_1_R, ZOOM_LEVEL_NORMAL, BIT_DEPTH_32BPP, "gfx/Vorsignal_1_R/Vorsignal_1_R_1x_32bpp.png", "gfx/Vorsignal_1_R/Vorsignal_1_R_1x_mask.png")
+									{ template_waypoint_1x(0, 0)}
+				
+	alternative_sprites (spriteset_Vorsignal_1_R, ZOOM_LEVEL_IN_2X, BIT_DEPTH_32BPP, "gfx/Vorsignal_1_R/Vorsignal_1_R_2x_32bpp.png", "gfx/Vorsignal_1_R/Vorsignal_1_R_2x_mask.png")
+									{ template_waypoint_2x(0, 0)}
+				
+	alternative_sprites (spriteset_Vorsignal_1_R, ZOOM_LEVEL_IN_4X, BIT_DEPTH_32BPP, "gfx/Vorsignal_1_R/Vorsignal_1_R_4x_32bpp.png", "gfx/Vorsignal_1_R/Vorsignal_1_R_4x_mask.png")
+									{ template_waypoint_4x(0, 0)}
+
+spritelayout Vorsignal_1_R_X(a) {
+    ground {
+        sprite: 1012 + a; // prevent railtype offset
+    }
+    building {
+        sprite: spriteset_Vorsignal_1_R (0); // first sprite in active spriteset
+        xoffset: 0;
+        yoffset: 0;
+        zoffset: 0;        
+        xextent: 16;
+        yextent: 4;
+        zextent: 4;
+        recolour_mode: RECOLOUR_REMAP;
+        palette:       PALETTE_USE_DEFAULT;
+    }
+}
+
+spritelayout Vorsignal_1_R_Y(a) {
+    ground {
+        sprite: 1011 + a; // prevent railtype offset
+    }
+    building {
+        sprite: spriteset_Vorsignal_1_R(1); // second sprite in active spriteset
+        xoffset: 0;
+        yoffset: 0;
+        zoffset: 0;        
+        xextent: 4;
+        yextent: 16;
+        zextent: 4;
+        recolour_mode: RECOLOUR_REMAP;
+        palette:       PALETTE_USE_DEFAULT;
+    }
+}
+
+item(FEAT_STATIONS, Vorsignal_1_R) {
+    property {
+        /* The class allows to sort stations into categories. */
+        class:                  "WAYP";
+        /* If no other NewGRF provides this class before us, we have to name it */
+        classname:              string(STR_NAME_STATCLASS);
+        /* Name of this particular station */
+        name:                   string(STR_NAME_STATION);
+        draw_pylon_tiles: 0;
+        hide_wire_tiles: 0xFF;
+        
+    }
+    graphics {
+        sprite_layouts: [Vorsignal_1_R_X(0), Vorsignal_1_R_Y(0)];
+        purchase: spriteset_Vorsignal_1_R;
+        
+    }
+}
+
+
+
+//######################
+//###Schachbretttafel###				
+//######################
+
+
+
+spriteset(spriteset_Schachbretttafel_L, "gfx/Schachbretttafel_L/Schachbretttafel_L_1x_8bpp.png")
+									{ template_waypoint_1x(0, 0)}
+				
+	alternative_sprites (spriteset_Schachbretttafel_L, ZOOM_LEVEL_NORMAL, BIT_DEPTH_32BPP, "gfx/Schachbretttafel_L/Schachbretttafel_L_1x_32bpp.png", "gfx/Schachbretttafel_L/Schachbretttafel_L_1x_mask.png")
+									{ template_waypoint_1x(0, 0)}
+				
+	alternative_sprites (spriteset_Schachbretttafel_L, ZOOM_LEVEL_IN_2X, BIT_DEPTH_32BPP, "gfx/Schachbretttafel_L/Schachbretttafel_L_2x_32bpp.png", "gfx/Schachbretttafel_L/Schachbretttafel_L_2x_mask.png")
+									{ template_waypoint_2x(0, 0)}
+				
+	alternative_sprites (spriteset_Schachbretttafel_L, ZOOM_LEVEL_IN_4X, BIT_DEPTH_32BPP, "gfx/Schachbretttafel_L/Schachbretttafel_L_4x_32bpp.png", "gfx/Schachbretttafel_L/Schachbretttafel_L_4x_mask.png")
+									{ template_waypoint_4x(0, 0)}
+
+spritelayout Schachbretttafel_L_X(a) {
+    ground {
+        sprite: 1012 + a; // prevent railtype offset
+    }
+    building {
+        sprite: spriteset_Schachbretttafel_L (0); // first sprite in active spriteset
+        xoffset: 0;
+        yoffset: 12;
+        zoffset: 0;        
+        xextent: 16;
+        yextent: 4;
+        zextent: 4;
+        recolour_mode: RECOLOUR_REMAP;
+        palette:       PALETTE_USE_DEFAULT;
+    }
+}
+
+spritelayout Schachbretttafel_L_Y(a) {
+    ground {
+        sprite: 1011 + a; // prevent railtype offset
+    }
+    building {
+        sprite: spriteset_Schachbretttafel_L(1); // second sprite in active spriteset
+        xoffset: 12;
+        yoffset: 0;
+        zoffset: 0;        
+        xextent: 4;
+        yextent: 16;
+        zextent: 4;
+        recolour_mode: RECOLOUR_REMAP;
+        palette:       PALETTE_USE_DEFAULT;
+    }
+}
+
+item(FEAT_STATIONS, Schachbretttafel_L) {
+    property {
+        /* The class allows to sort stations into categories. */
+        class:                  "WAYP";
+        /* If no other NewGRF provides this class before us, we have to name it */
+        classname:              string(STR_NAME_STATCLASS);
+        /* Name of this particular station */
+        name:                   string(STR_NAME_STATION);
+        draw_pylon_tiles: 0;
+        hide_wire_tiles: 0xFF;
+        
+    }
+    graphics {
+        sprite_layouts: [Schachbretttafel_L_X(0), Schachbretttafel_L_Y(0)];
+        purchase: spriteset_Schachbretttafel_L;
+        
+    }
+}
+
+
+spriteset(spriteset_Schachbretttafel_R, "gfx/Schachbretttafel_R/Schachbretttafel_R_1x_8bpp.png")
+									{ template_waypoint_1x(0, 0)}
+				
+	alternative_sprites (spriteset_Schachbretttafel_R, ZOOM_LEVEL_NORMAL, BIT_DEPTH_32BPP, "gfx/Schachbretttafel_R/Schachbretttafel_R_1x_32bpp.png", "gfx/Schachbretttafel_R/Schachbretttafel_R_1x_mask.png")
+									{ template_waypoint_1x(0, 0)}
+				
+	alternative_sprites (spriteset_Schachbretttafel_R, ZOOM_LEVEL_IN_2X, BIT_DEPTH_32BPP, "gfx/Schachbretttafel_R/Schachbretttafel_R_2x_32bpp.png", "gfx/Schachbretttafel_R/Schachbretttafel_R_2x_mask.png")
+									{ template_waypoint_2x(0, 0)}
+				
+	alternative_sprites (spriteset_Schachbretttafel_R, ZOOM_LEVEL_IN_4X, BIT_DEPTH_32BPP, "gfx/Schachbretttafel_R/Schachbretttafel_R_4x_32bpp.png", "gfx/Schachbretttafel_R/Schachbretttafel_R_4x_mask.png")
+									{ template_waypoint_4x(0, 0)}
+
+spritelayout Schachbretttafel_R_X(a) {
+    ground {
+        sprite: 1012 + a; // prevent railtype offset
+    }
+    building {
+        sprite: spriteset_Schachbretttafel_R (0); // first sprite in active spriteset
+        xoffset: 0;
+        yoffset: 0;
+        zoffset: 0;        
+        xextent: 16;
+        yextent: 4;
+        zextent: 4;
+        recolour_mode: RECOLOUR_REMAP;
+        palette:       PALETTE_USE_DEFAULT;
+    }
+}
+
+spritelayout Schachbretttafel_R_Y(a) {
+    ground {
+        sprite: 1011 + a; // prevent railtype offset
+    }
+    building {
+        sprite: spriteset_Schachbretttafel_R(1); // second sprite in active spriteset
+        xoffset: 0;
+        yoffset: 0;
+        zoffset: 0;        
+        xextent: 4;
+        yextent: 16;
+        zextent: 4;
+        recolour_mode: RECOLOUR_REMAP;
+        palette:       PALETTE_USE_DEFAULT;
+    }
+}
+
+item(FEAT_STATIONS, Schachbretttafel_R) {
+    property {
+        /* The class allows to sort stations into categories. */
+        class:                  "WAYP";
+        /* If no other NewGRF provides this class before us, we have to name it */
+        classname:              string(STR_NAME_STATCLASS);
+        /* Name of this particular station */
+        name:                   string(STR_NAME_STATION);
+        draw_pylon_tiles: 0;
+        hide_wire_tiles: 0xFF;
+        
+    }
+    graphics {
+        sprite_layouts: [Schachbretttafel_R_X(0), Schachbretttafel_R_Y(0)];
+        purchase: spriteset_Schachbretttafel_R;
+        
+    }
+}
+
+
+//#################
+//###Langsamfahrscheibe###				
+//#################
+
+
+
+spriteset(spriteset_Langsamfahrscheibe_L, "gfx/Langsamfahrscheibe_L/Langsamfahrscheibe_L_1x_8bpp.png")
+									{ template_waypoint_1x(0, 0)}
+				
+	alternative_sprites (spriteset_Langsamfahrscheibe_L, ZOOM_LEVEL_NORMAL, BIT_DEPTH_32BPP, "gfx/Langsamfahrscheibe_L/Langsamfahrscheibe_L_1x_32bpp.png", "gfx/Langsamfahrscheibe_L/Langsamfahrscheibe_L_1x_mask.png")
+									{ template_waypoint_1x(0, 0)}
+				
+	alternative_sprites (spriteset_Langsamfahrscheibe_L, ZOOM_LEVEL_IN_2X, BIT_DEPTH_32BPP, "gfx/Langsamfahrscheibe_L/Langsamfahrscheibe_L_2x_32bpp.png", "gfx/Langsamfahrscheibe_L/Langsamfahrscheibe_L_2x_mask.png")
+									{ template_waypoint_2x(0, 0)}
+				
+	alternative_sprites (spriteset_Langsamfahrscheibe_L, ZOOM_LEVEL_IN_4X, BIT_DEPTH_32BPP, "gfx/Langsamfahrscheibe_L/Langsamfahrscheibe_L_4x_32bpp.png", "gfx/Langsamfahrscheibe_L/Langsamfahrscheibe_L_4x_mask.png")
+									{ template_waypoint_4x(0, 0)}
+
+spritelayout Langsamfahrscheibe_L_X(a) {
+    ground {
+        sprite: 1012 + a; // prevent railtype offset
+    }
+    building {
+        sprite: spriteset_Langsamfahrscheibe_L (0); // first sprite in active spriteset
+        xoffset: 0;
+        yoffset: 12;
+        zoffset: 0;        
+        xextent: 16;
+        yextent: 4;
+        zextent: 4;
+        recolour_mode: RECOLOUR_REMAP;
+        palette:       PALETTE_USE_DEFAULT;
+    }
+}
+
+spritelayout Langsamfahrscheibe_L_Y(a) {
+    ground {
+        sprite: 1011 + a; // prevent railtype offset
+    }
+    building {
+        sprite: spriteset_Langsamfahrscheibe_L(1); // second sprite in active spriteset
+        xoffset: 12;
+        yoffset: 0;
+        zoffset: 0;        
+        xextent: 4;
+        yextent: 16;
+        zextent: 4;
+        recolour_mode: RECOLOUR_REMAP;
+        palette:       PALETTE_USE_DEFAULT;
+    }
+}
+
+item(FEAT_STATIONS, Langsamfahrscheibe_L) {
+    property {
+        /* The class allows to sort stations into categories. */
+        class:                  "WAYP";
+        /* If no other NewGRF provides this class before us, we have to name it */
+        classname:              string(STR_NAME_STATCLASS);
+        /* Name of this particular station */
+        name:                   string(STR_NAME_STATION);
+        draw_pylon_tiles: 0;
+        hide_wire_tiles: 0xFF;
+        
+    }
+    graphics {
+        sprite_layouts: [Langsamfahrscheibe_L_X(0), Langsamfahrscheibe_L_Y(0)];
+        purchase: spriteset_Langsamfahrscheibe_L;
+        
+    }
+}
+
+
+spriteset(spriteset_Langsamfahrscheibe_R, "gfx/Langsamfahrscheibe_R/Langsamfahrscheibe_R_1x_8bpp.png")
+									{ template_waypoint_1x(0, 0)}
+				
+	alternative_sprites (spriteset_Langsamfahrscheibe_R, ZOOM_LEVEL_NORMAL, BIT_DEPTH_32BPP, "gfx/Langsamfahrscheibe_R/Langsamfahrscheibe_R_1x_32bpp.png", "gfx/Langsamfahrscheibe_R/Langsamfahrscheibe_R_1x_mask.png")
+									{ template_waypoint_1x(0, 0)}
+				
+	alternative_sprites (spriteset_Langsamfahrscheibe_R, ZOOM_LEVEL_IN_2X, BIT_DEPTH_32BPP, "gfx/Langsamfahrscheibe_R/Langsamfahrscheibe_R_2x_32bpp.png", "gfx/Langsamfahrscheibe_R/Langsamfahrscheibe_R_2x_mask.png")
+									{ template_waypoint_2x(0, 0)}
+				
+	alternative_sprites (spriteset_Langsamfahrscheibe_R, ZOOM_LEVEL_IN_4X, BIT_DEPTH_32BPP, "gfx/Langsamfahrscheibe_R/Langsamfahrscheibe_R_4x_32bpp.png", "gfx/Langsamfahrscheibe_R/Langsamfahrscheibe_R_4x_mask.png")
+									{ template_waypoint_4x(0, 0)}
+
+spritelayout Langsamfahrscheibe_R_X(a) {
+    ground {
+        sprite: 1012 + a; // prevent railtype offset
+    }
+    building {
+        sprite: spriteset_Langsamfahrscheibe_R (0); // first sprite in active spriteset
+        xoffset: 0;
+        yoffset: 0;
+        zoffset: 0;        
+        xextent: 16;
+        yextent: 4;
+        zextent: 4;
+        recolour_mode: RECOLOUR_REMAP;
+        palette:       PALETTE_USE_DEFAULT;
+    }
+}
+
+spritelayout Langsamfahrscheibe_R_Y(a) {
+    ground {
+        sprite: 1011 + a; // prevent railtype offset
+    }
+    building {
+        sprite: spriteset_Langsamfahrscheibe_R(1); // second sprite in active spriteset
+        xoffset: 0;
+        yoffset: 0;
+        zoffset: 0;        
+        xextent: 4;
+        yextent: 16;
+        zextent: 4;
+        recolour_mode: RECOLOUR_REMAP;
+        palette:       PALETTE_USE_DEFAULT;
+    }
+}
+
+item(FEAT_STATIONS, Langsamfahrscheibe_R) {
+    property {
+        /* The class allows to sort stations into categories. */
+        class:                  "WAYP";
+        /* If no other NewGRF provides this class before us, we have to name it */
+        classname:              string(STR_NAME_STATCLASS);
+        /* Name of this particular station */
+        name:                   string(STR_NAME_STATION);
+        draw_pylon_tiles: 0;
+        hide_wire_tiles: 0xFF;
+        
+    }
+    graphics {
+        sprite_layouts: [Langsamfahrscheibe_R_X(0), Langsamfahrscheibe_R_Y(0)];
+        purchase: spriteset_Langsamfahrscheibe_R;
+        
+    }
+}
+
+
+//#################
+//###Geschwindigkeitstafel###				
+//#################
+
+
+
+spriteset(spriteset_Geschwindigkeitstafel_L, "gfx/Geschwindigkeitstafel_L/Geschwindigkeitstafel_L_1x_8bpp.png")
+									{ template_waypoint_1x(0, 0)}
+				
+	alternative_sprites (spriteset_Geschwindigkeitstafel_L, ZOOM_LEVEL_NORMAL, BIT_DEPTH_32BPP, "gfx/Geschwindigkeitstafel_L/Geschwindigkeitstafel_L_1x_32bpp.png", "gfx/Geschwindigkeitstafel_L/Geschwindigkeitstafel_L_1x_mask.png")
+									{ template_waypoint_1x(0, 0)}
+				
+	alternative_sprites (spriteset_Geschwindigkeitstafel_L, ZOOM_LEVEL_IN_2X, BIT_DEPTH_32BPP, "gfx/Geschwindigkeitstafel_L/Geschwindigkeitstafel_L_2x_32bpp.png", "gfx/Geschwindigkeitstafel_L/Geschwindigkeitstafel_L_2x_mask.png")
+									{ template_waypoint_2x(0, 0)}
+				
+	alternative_sprites (spriteset_Geschwindigkeitstafel_L, ZOOM_LEVEL_IN_4X, BIT_DEPTH_32BPP, "gfx/Geschwindigkeitstafel_L/Geschwindigkeitstafel_L_4x_32bpp.png", "gfx/Geschwindigkeitstafel_L/Geschwindigkeitstafel_L_4x_mask.png")
+									{ template_waypoint_4x(0, 0)}
+
+spritelayout Geschwindigkeitstafel_L_X(a) {
+    ground {
+        sprite: 1012 + a; // prevent railtype offset
+    }
+    building {
+        sprite: spriteset_Geschwindigkeitstafel_L (0); // first sprite in active spriteset
+        xoffset: 0;
+        yoffset: 12;
+        zoffset: 0;        
+        xextent: 16;
+        yextent: 4;
+        zextent: 4;
+        recolour_mode: RECOLOUR_REMAP;
+        palette:       PALETTE_USE_DEFAULT;
+    }
+}
+
+spritelayout Geschwindigkeitstafel_L_Y(a) {
+    ground {
+        sprite: 1011 + a; // prevent railtype offset
+    }
+    building {
+        sprite: spriteset_Geschwindigkeitstafel_L(1); // second sprite in active spriteset
+        xoffset: 12;
+        yoffset: 0;
+        zoffset: 0;        
+        xextent: 4;
+        yextent: 16;
+        zextent: 4;
+        recolour_mode: RECOLOUR_REMAP;
+        palette:       PALETTE_USE_DEFAULT;
+    }
+}
+
+item(FEAT_STATIONS, Geschwindigkeitstafel_L) {
+    property {
+        /* The class allows to sort stations into categories. */
+        class:                  "WAYP";
+        /* If no other NewGRF provides this class before us, we have to name it */
+        classname:              string(STR_NAME_STATCLASS);
+        /* Name of this particular station */
+        name:                   string(STR_NAME_STATION);
+        draw_pylon_tiles: 0;
+        hide_wire_tiles: 0xFF;
+        
+    }
+    graphics {
+        sprite_layouts: [Geschwindigkeitstafel_L_X(0), Geschwindigkeitstafel_L_Y(0)];
+        purchase: spriteset_Geschwindigkeitstafel_L;
+        
+    }
+}
+
+
+spriteset(spriteset_Geschwindigkeitstafel_R, "gfx/Geschwindigkeitstafel_R/Geschwindigkeitstafel_R_1x_8bpp.png")
+									{ template_waypoint_1x(0, 0)}
+				
+	alternative_sprites (spriteset_Geschwindigkeitstafel_R, ZOOM_LEVEL_NORMAL, BIT_DEPTH_32BPP, "gfx/Geschwindigkeitstafel_R/Geschwindigkeitstafel_R_1x_32bpp.png", "gfx/Geschwindigkeitstafel_R/Geschwindigkeitstafel_R_1x_mask.png")
+									{ template_waypoint_1x(0, 0)}
+				
+	alternative_sprites (spriteset_Geschwindigkeitstafel_R, ZOOM_LEVEL_IN_2X, BIT_DEPTH_32BPP, "gfx/Geschwindigkeitstafel_R/Geschwindigkeitstafel_R_2x_32bpp.png", "gfx/Geschwindigkeitstafel_R/Geschwindigkeitstafel_R_2x_mask.png")
+									{ template_waypoint_2x(0, 0)}
+				
+	alternative_sprites (spriteset_Geschwindigkeitstafel_R, ZOOM_LEVEL_IN_4X, BIT_DEPTH_32BPP, "gfx/Geschwindigkeitstafel_R/Geschwindigkeitstafel_R_4x_32bpp.png", "gfx/Geschwindigkeitstafel_R/Geschwindigkeitstafel_R_4x_mask.png")
+									{ template_waypoint_4x(0, 0)}
+
+spritelayout Geschwindigkeitstafel_R_X(a) {
+    ground {
+        sprite: 1012 + a; // prevent railtype offset
+    }
+    building {
+        sprite: spriteset_Geschwindigkeitstafel_R (0); // first sprite in active spriteset
+        xoffset: 0;
+        yoffset: 0;
+        zoffset: 0;        
+        xextent: 16;
+        yextent: 4;
+        zextent: 4;
+        recolour_mode: RECOLOUR_REMAP;
+        palette:       PALETTE_USE_DEFAULT;
+    }
+}
+
+spritelayout Geschwindigkeitstafel_R_Y(a) {
+    ground {
+        sprite: 1011 + a; // prevent railtype offset
+    }
+    building {
+        sprite: spriteset_Geschwindigkeitstafel_R(1); // second sprite in active spriteset
+        xoffset: 0;
+        yoffset: 0;
+        zoffset: 0;        
+        xextent: 4;
+        yextent: 16;
+        zextent: 4;
+        recolour_mode: RECOLOUR_REMAP;
+        palette:       PALETTE_USE_DEFAULT;
+    }
+}
+
+item(FEAT_STATIONS, Geschwindigkeitstafel_R) {
+    property {
+        /* The class allows to sort stations into categories. */
+        class:                  "WAYP";
+        /* If no other NewGRF provides this class before us, we have to name it */
+        classname:              string(STR_NAME_STATCLASS);
+        /* Name of this particular station */
+        name:                   string(STR_NAME_STATION);
+        draw_pylon_tiles: 0;
+        hide_wire_tiles: 0xFF;
+        
+    }
+    graphics {
+        sprite_layouts: [Geschwindigkeitstafel_R_X(0), Geschwindigkeitstafel_R_Y(0)];
+        purchase: spriteset_Geschwindigkeitstafel_R;
+        
+    }
+}
+
+
+//#################
+//###Haltepunkttafel###				
+//#################
+
+
+
+spriteset(spriteset_Haltepunkttafel_L, "gfx/Haltepunkttafel_L/Haltepunkttafel_L_1x_8bpp.png")
+									{ template_waypoint_1x(0, 0)}
+				
+	alternative_sprites (spriteset_Haltepunkttafel_L, ZOOM_LEVEL_NORMAL, BIT_DEPTH_32BPP, "gfx/Haltepunkttafel_L/Haltepunkttafel_L_1x_32bpp.png", "gfx/Haltepunkttafel_L/Haltepunkttafel_L_1x_mask.png")
+									{ template_waypoint_1x(0, 0)}
+				
+	alternative_sprites (spriteset_Haltepunkttafel_L, ZOOM_LEVEL_IN_2X, BIT_DEPTH_32BPP, "gfx/Haltepunkttafel_L/Haltepunkttafel_L_2x_32bpp.png", "gfx/Haltepunkttafel_L/Haltepunkttafel_L_2x_mask.png")
+									{ template_waypoint_2x(0, 0)}
+				
+	alternative_sprites (spriteset_Haltepunkttafel_L, ZOOM_LEVEL_IN_4X, BIT_DEPTH_32BPP, "gfx/Haltepunkttafel_L/Haltepunkttafel_L_4x_32bpp.png", "gfx/Haltepunkttafel_L/Haltepunkttafel_L_4x_mask.png")
+									{ template_waypoint_4x(0, 0)}
+
+spritelayout Haltepunkttafel_L_X(a) {
+    ground {
+        sprite: 1012 + a; // prevent railtype offset
+    }
+    building {
+        sprite: spriteset_Haltepunkttafel_L (0); // first sprite in active spriteset
+        xoffset: 0;
+        yoffset: 12;
+        zoffset: 0;        
+        xextent: 16;
+        yextent: 4;
+        zextent: 4;
+        recolour_mode: RECOLOUR_REMAP;
+        palette:       PALETTE_USE_DEFAULT;
+    }
+}
+
+spritelayout Haltepunkttafel_L_Y(a) {
+    ground {
+        sprite: 1011 + a; // prevent railtype offset
+    }
+    building {
+        sprite: spriteset_Haltepunkttafel_L(1); // second sprite in active spriteset
+        xoffset: 12;
+        yoffset: 0;
+        zoffset: 0;        
+        xextent: 4;
+        yextent: 16;
+        zextent: 4;
+        recolour_mode: RECOLOUR_REMAP;
+        palette:       PALETTE_USE_DEFAULT;
+    }
+}
+
+item(FEAT_STATIONS, Haltepunkttafel_L) {
+    property {
+        /* The class allows to sort stations into categories. */
+        class:                  "WAYP";
+        /* If no other NewGRF provides this class before us, we have to name it */
+        classname:              string(STR_NAME_STATCLASS);
+        /* Name of this particular station */
+        name:                   string(STR_NAME_STATION);
+        draw_pylon_tiles: 0;
+        hide_wire_tiles: 0xFF;
+        
+    }
+    graphics {
+        sprite_layouts: [Haltepunkttafel_L_X(0), Haltepunkttafel_L_Y(0)];
+        purchase: spriteset_Haltepunkttafel_L;
+        
+    }
+}
+
+
+spriteset(spriteset_Haltepunkttafel_R, "gfx/Haltepunkttafel_R/Haltepunkttafel_R_1x_8bpp.png")
+									{ template_waypoint_1x(0, 0)}
+				
+	alternative_sprites (spriteset_Haltepunkttafel_R, ZOOM_LEVEL_NORMAL, BIT_DEPTH_32BPP, "gfx/Haltepunkttafel_R/Haltepunkttafel_R_1x_32bpp.png", "gfx/Haltepunkttafel_R/Haltepunkttafel_R_1x_mask.png")
+									{ template_waypoint_1x(0, 0)}
+				
+	alternative_sprites (spriteset_Haltepunkttafel_R, ZOOM_LEVEL_IN_2X, BIT_DEPTH_32BPP, "gfx/Haltepunkttafel_R/Haltepunkttafel_R_2x_32bpp.png", "gfx/Haltepunkttafel_R/Haltepunkttafel_R_2x_mask.png")
+									{ template_waypoint_2x(0, 0)}
+				
+	alternative_sprites (spriteset_Haltepunkttafel_R, ZOOM_LEVEL_IN_4X, BIT_DEPTH_32BPP, "gfx/Haltepunkttafel_R/Haltepunkttafel_R_4x_32bpp.png", "gfx/Haltepunkttafel_R/Haltepunkttafel_R_4x_mask.png")
+									{ template_waypoint_4x(0, 0)}
+
+spritelayout Haltepunkttafel_R_X(a) {
+    ground {
+        sprite: 1012 + a; // prevent railtype offset
+    }
+    building {
+        sprite: spriteset_Haltepunkttafel_R (0); // first sprite in active spriteset
+        xoffset: 0;
+        yoffset: 0;
+        zoffset: 0;        
+        xextent: 16;
+        yextent: 4;
+        zextent: 4;
+        recolour_mode: RECOLOUR_REMAP;
+        palette:       PALETTE_USE_DEFAULT;
+    }
+}
+
+spritelayout Haltepunkttafel_R_Y(a) {
+    ground {
+        sprite: 1011 + a; // prevent railtype offset
+    }
+    building {
+        sprite: spriteset_Haltepunkttafel_R(1); // second sprite in active spriteset
+        xoffset: 0;
+        yoffset: 0;
+        zoffset: 0;        
+        xextent: 4;
+        yextent: 16;
+        zextent: 4;
+        recolour_mode: RECOLOUR_REMAP;
+        palette:       PALETTE_USE_DEFAULT;
+    }
+}
+
+item(FEAT_STATIONS, Haltepunkttafel_R) {
+    property {
+        /* The class allows to sort stations into categories. */
+        class:                  "WAYP";
+        /* If no other NewGRF provides this class before us, we have to name it */
+        classname:              string(STR_NAME_STATCLASS);
+        /* Name of this particular station */
+        name:                   string(STR_NAME_STATION);
+        draw_pylon_tiles: 0;
+        hide_wire_tiles: 0xFF;
+        
+    }
+    graphics {
+        sprite_layouts: [Haltepunkttafel_R_X(0), Haltepunkttafel_R_Y(0)];
+        purchase: spriteset_Haltepunkttafel_R;
+        
+    }
+}
+
+
+//#################
+//###Haltetafel###				
+//#################
+
+
+
+spriteset(spriteset_Haltetafel_L, "gfx/Haltetafel_L/Haltetafel_L_1x_8bpp.png")
+									{ template_waypoint_1x(0, 0)}
+				
+	alternative_sprites (spriteset_Haltetafel_L, ZOOM_LEVEL_NORMAL, BIT_DEPTH_32BPP, "gfx/Haltetafel_L/Haltetafel_L_1x_32bpp.png", "gfx/Haltetafel_L/Haltetafel_L_1x_mask.png")
+									{ template_waypoint_1x(0, 0)}
+				
+	alternative_sprites (spriteset_Haltetafel_L, ZOOM_LEVEL_IN_2X, BIT_DEPTH_32BPP, "gfx/Haltetafel_L/Haltetafel_L_2x_32bpp.png", "gfx/Haltetafel_L/Haltetafel_L_2x_mask.png")
+									{ template_waypoint_2x(0, 0)}
+				
+	alternative_sprites (spriteset_Haltetafel_L, ZOOM_LEVEL_IN_4X, BIT_DEPTH_32BPP, "gfx/Haltetafel_L/Haltetafel_L_4x_32bpp.png", "gfx/Haltetafel_L/Haltetafel_L_4x_mask.png")
+									{ template_waypoint_4x(0, 0)}
+
+spritelayout Haltetafel_L_X(a) {
+    ground {
+        sprite: 1012 + a; // prevent railtype offset
+    }
+    building {
+        sprite: spriteset_Haltetafel_L (0); // first sprite in active spriteset
+        xoffset: 0;
+        yoffset: 12;
+        zoffset: 0;        
+        xextent: 16;
+        yextent: 4;
+        zextent: 4;
+        recolour_mode: RECOLOUR_REMAP;
+        palette:       PALETTE_USE_DEFAULT;
+    }
+}
+
+spritelayout Haltetafel_L_Y(a) {
+    ground {
+        sprite: 1011 + a; // prevent railtype offset
+    }
+    building {
+        sprite: spriteset_Haltetafel_L(1); // second sprite in active spriteset
+        xoffset: 12;
+        yoffset: 0;
+        zoffset: 0;        
+        xextent: 4;
+        yextent: 16;
+        zextent: 4;
+        recolour_mode: RECOLOUR_REMAP;
+        palette:       PALETTE_USE_DEFAULT;
+    }
+}
+
+item(FEAT_STATIONS, Haltetafel_L) {
+    property {
+        /* The class allows to sort stations into categories. */
+        class:                  "WAYP";
+        /* If no other NewGRF provides this class before us, we have to name it */
+        classname:              string(STR_NAME_STATCLASS);
+        /* Name of this particular station */
+        name:                   string(STR_NAME_STATION);
+        draw_pylon_tiles: 0;
+        hide_wire_tiles: 0xFF;
+        
+    }
+    graphics {
+        sprite_layouts: [Haltetafel_L_X(0), Haltetafel_L_Y(0)];
+        purchase: spriteset_Haltetafel_L;
+        
+    }
+}
+
+
+spriteset(spriteset_Haltetafel_R, "gfx/Haltetafel_R/Haltetafel_R_1x_8bpp.png")
+									{ template_waypoint_1x(0, 0)}
+				
+	alternative_sprites (spriteset_Haltetafel_R, ZOOM_LEVEL_NORMAL, BIT_DEPTH_32BPP, "gfx/Haltetafel_R/Haltetafel_R_1x_32bpp.png", "gfx/Haltetafel_R/Haltetafel_R_1x_mask.png")
+									{ template_waypoint_1x(0, 0)}
+				
+	alternative_sprites (spriteset_Haltetafel_R, ZOOM_LEVEL_IN_2X, BIT_DEPTH_32BPP, "gfx/Haltetafel_R/Haltetafel_R_2x_32bpp.png", "gfx/Haltetafel_R/Haltetafel_R_2x_mask.png")
+									{ template_waypoint_2x(0, 0)}
+				
+	alternative_sprites (spriteset_Haltetafel_R, ZOOM_LEVEL_IN_4X, BIT_DEPTH_32BPP, "gfx/Haltetafel_R/Haltetafel_R_4x_32bpp.png", "gfx/Haltetafel_R/Haltetafel_R_4x_mask.png")
+									{ template_waypoint_4x(0, 0)}
+
+spritelayout Haltetafel_R_X(a) {
+    ground {
+        sprite: 1012 + a; // prevent railtype offset
+    }
+    building {
+        sprite: spriteset_Haltetafel_R (0); // first sprite in active spriteset
+        xoffset: 0;
+        yoffset: 0;
+        zoffset: 0;        
+        xextent: 16;
+        yextent: 4;
+        zextent: 4;
+        recolour_mode: RECOLOUR_REMAP;
+        palette:       PALETTE_USE_DEFAULT;
+    }
+}
+
+spritelayout Haltetafel_R_Y(a) {
+    ground {
+        sprite: 1011 + a; // prevent railtype offset
+    }
+    building {
+        sprite: spriteset_Haltetafel_R(1); // second sprite in active spriteset
+        xoffset: 0;
+        yoffset: 0;
+        zoffset: 0;        
+        xextent: 4;
+        yextent: 16;
+        zextent: 4;
+        recolour_mode: RECOLOUR_REMAP;
+        palette:       PALETTE_USE_DEFAULT;
+    }
+}
+
+item(FEAT_STATIONS, Haltetafel_R) {
+    property {
+        /* The class allows to sort stations into categories. */
+        class:                  "WAYP";
+        /* If no other NewGRF provides this class before us, we have to name it */
+        classname:              string(STR_NAME_STATCLASS);
+        /* Name of this particular station */
+        name:                   string(STR_NAME_STATION);
+        draw_pylon_tiles: 0;
+        hide_wire_tiles: 0xFF;
+        
+    }
+    graphics {
+        sprite_layouts: [Haltetafel_R_X(0), Haltetafel_R_Y(0)];
+        purchase: spriteset_Haltetafel_R;
+        
+    }
+}
+
+
+//################
+//###Pfeiftafel###				
+//################
+
+
+
+spriteset(spriteset_Pfeiftafel_L, "gfx/Pfeiftafel_L/Pfeiftafel_L_1x_8bpp.png")
+									{ template_waypoint_1x(0, 0)}
+				
+	alternative_sprites (spriteset_Pfeiftafel_L, ZOOM_LEVEL_NORMAL, BIT_DEPTH_32BPP, "gfx/Pfeiftafel_L/Pfeiftafel_L_1x_32bpp.png", "gfx/Pfeiftafel_L/Pfeiftafel_L_1x_mask.png")
+									{ template_waypoint_1x(0, 0)}
+				
+	alternative_sprites (spriteset_Pfeiftafel_L, ZOOM_LEVEL_IN_2X, BIT_DEPTH_32BPP, "gfx/Pfeiftafel_L/Pfeiftafel_L_2x_32bpp.png", "gfx/Pfeiftafel_L/Pfeiftafel_L_2x_mask.png")
+									{ template_waypoint_2x(0, 0)}
+				
+	alternative_sprites (spriteset_Pfeiftafel_L, ZOOM_LEVEL_IN_4X, BIT_DEPTH_32BPP, "gfx/Pfeiftafel_L/Pfeiftafel_L_4x_32bpp.png", "gfx/Pfeiftafel_L/Pfeiftafel_L_4x_mask.png")
+									{ template_waypoint_4x(0, 0)}
+
+spritelayout Pfeiftafel_L_X(a) {
+    ground {
+        sprite: 1012 + a; // prevent railtype offset
+    }
+    building {
+        sprite: spriteset_Pfeiftafel_L (0); // first sprite in active spriteset
+        xoffset: 0;
+        yoffset: 12;
+        zoffset: 0;        
+        xextent: 16;
+        yextent: 4;
+        zextent: 4;
+        recolour_mode: RECOLOUR_REMAP;
+        palette:       PALETTE_USE_DEFAULT;
+    }
+}
+
+spritelayout Pfeiftafel_L_Y(a) {
+    ground {
+        sprite: 1011 + a; // prevent railtype offset
+    }
+    building {
+        sprite: spriteset_Pfeiftafel_L(1); // second sprite in active spriteset
+        xoffset: 12;
+        yoffset: 0;
+        zoffset: 0;        
+        xextent: 4;
+        yextent: 16;
+        zextent: 4;
+        recolour_mode: RECOLOUR_REMAP;
+        palette:       PALETTE_USE_DEFAULT;
+    }
+}
+
+item(FEAT_STATIONS, Pfeiftafel_L) {
+    property {
+        /* The class allows to sort stations into categories. */
+        class:                  "WAYP";
+        /* If no other NewGRF provides this class before us, we have to name it */
+        classname:              string(STR_NAME_STATCLASS);
+        /* Name of this particular station */
+        name:                   string(STR_NAME_STATION);
+        draw_pylon_tiles: 0;
+        hide_wire_tiles: 0xFF;
+        
+    }
+    graphics {
+        sprite_layouts: [Pfeiftafel_L_X(0), Pfeiftafel_L_Y(0)];
+        purchase: spriteset_Pfeiftafel_L;
+        
+    }
+}
+
+
+spriteset(spriteset_Pfeiftafel_R, "gfx/Pfeiftafel_R/Pfeiftafel_R_1x_8bpp.png")
+									{ template_waypoint_1x(0, 0)}
+				
+	alternative_sprites (spriteset_Pfeiftafel_R, ZOOM_LEVEL_NORMAL, BIT_DEPTH_32BPP, "gfx/Pfeiftafel_R/Pfeiftafel_R_1x_32bpp.png", "gfx/Pfeiftafel_R/Pfeiftafel_R_1x_mask.png")
+									{ template_waypoint_1x(0, 0)}
+				
+	alternative_sprites (spriteset_Pfeiftafel_R, ZOOM_LEVEL_IN_2X, BIT_DEPTH_32BPP, "gfx/Pfeiftafel_R/Pfeiftafel_R_2x_32bpp.png", "gfx/Pfeiftafel_R/Pfeiftafel_R_2x_mask.png")
+									{ template_waypoint_2x(0, 0)}
+				
+	alternative_sprites (spriteset_Pfeiftafel_R, ZOOM_LEVEL_IN_4X, BIT_DEPTH_32BPP, "gfx/Pfeiftafel_R/Pfeiftafel_R_4x_32bpp.png", "gfx/Pfeiftafel_R/Pfeiftafel_R_4x_mask.png")
+									{ template_waypoint_4x(0, 0)}
+
+spritelayout Pfeiftafel_R_X(a) {
+    ground {
+        sprite: 1012 + a; // prevent railtype offset
+    }
+    building {
+        sprite: spriteset_Pfeiftafel_R (0); // first sprite in active spriteset
+        xoffset: 0;
+        yoffset: 0;
+        zoffset: 0;        
+        xextent: 16;
+        yextent: 4;
+        zextent: 4;
+        recolour_mode: RECOLOUR_REMAP;
+        palette:       PALETTE_USE_DEFAULT;
+    }
+}
+
+spritelayout Pfeiftafel_R_Y(a) {
+    ground {
+        sprite: 1011 + a; // prevent railtype offset
+    }
+    building {
+        sprite: spriteset_Pfeiftafel_R(1); // second sprite in active spriteset
+        xoffset: 0;
+        yoffset: 0;
+        zoffset: 0;        
+        xextent: 4;
+        yextent: 16;
+        zextent: 4;
+        recolour_mode: RECOLOUR_REMAP;
+        palette:       PALETTE_USE_DEFAULT;
+    }
+}
+
+item(FEAT_STATIONS, Pfeiftafel_R) {
+    property {
+        /* The class allows to sort stations into categories. */
+        class:                  "WAYP";
+        /* If no other NewGRF provides this class before us, we have to name it */
+        classname:              string(STR_NAME_STATCLASS);
+        /* Name of this particular station */
+        name:                   string(STR_NAME_STATION);
+        draw_pylon_tiles: 0;
+        hide_wire_tiles: 0xFF;
+        
+    }
+    graphics {
+        sprite_layouts: [Pfeiftafel_R_X(0), Pfeiftafel_R_Y(0)];
+        purchase: spriteset_Pfeiftafel_R;
+        
+    }
+}
+
+
+
+//#############
+//###Bue_Sig###				
+//#############
+
+spriteset(spriteset_Bue_Sig_On_L, "gfx/Bue_Sig_L/Bue_Sig_On_L_1x_8bpp.png")
+									{ template_waypoint_1x(0, 0)}
+				
+	alternative_sprites (spriteset_Bue_Sig_On_L, ZOOM_LEVEL_NORMAL, BIT_DEPTH_32BPP, "gfx/Bue_Sig_L/Bue_Sig_On_L_1x_32bpp.png", "gfx/Bue_Sig_L/Bue_Sig_On_L_1x_mask.png")
+									{ template_waypoint_1x(0, 0)}
+				
+	alternative_sprites (spriteset_Bue_Sig_On_L, ZOOM_LEVEL_IN_2X, BIT_DEPTH_32BPP, "gfx/Bue_Sig_L/Bue_Sig_On_L_2x_32bpp.png", "gfx/Bue_Sig_L/Bue_Sig_On_L_2x_mask.png")
+									{ template_waypoint_2x(0, 0)}
+				
+	alternative_sprites (spriteset_Bue_Sig_On_L, ZOOM_LEVEL_IN_4X, BIT_DEPTH_32BPP, "gfx/Bue_Sig_L/Bue_Sig_On_L_4x_32bpp.png", "gfx/Bue_Sig_L/Bue_Sig_On_L_4x_mask.png")
+									{ template_waypoint_4x(0, 0)}
+
+spriteset(spriteset_Bue_Sig_Off_L, "gfx/Bue_Sig_L/Bue_Sig_Off_L_1x_8bpp.png")
+									{ template_waypoint_1x(0, 0)}
+				
+	alternative_sprites (spriteset_Bue_Sig_Off_L, ZOOM_LEVEL_NORMAL, BIT_DEPTH_32BPP, "gfx/Bue_Sig_L/Bue_Sig_Off_L_1x_32bpp.png", "gfx/Bue_Sig_L/Bue_Sig_Off_L_1x_mask.png")
+									{ template_waypoint_1x(0, 0)}
+				
+	alternative_sprites (spriteset_Bue_Sig_Off_L, ZOOM_LEVEL_IN_2X, BIT_DEPTH_32BPP, "gfx/Bue_Sig_L/Bue_Sig_Off_L_2x_32bpp.png", "gfx/Bue_Sig_L/Bue_Sig_Off_L_2x_mask.png")
+									{ template_waypoint_2x(0, 0)}
+				
+	alternative_sprites (spriteset_Bue_Sig_Off_L, ZOOM_LEVEL_IN_4X, BIT_DEPTH_32BPP, "gfx/Bue_Sig_L/Bue_Sig_Off_L_4x_32bpp.png", "gfx/Bue_Sig_L/Bue_Sig_Off_L_4x_mask.png")
+									{ template_waypoint_4x(0, 0)}
+
+
+spritelayout Bue_Sig_On_L_X(a) {
+    ground {
+        sprite: 1012 + a; // prevent railtype offset
+    }
+    building {
+        sprite: spriteset_Bue_Sig_On_L (0);
+        hide_sprite: animation_frame;
+        xoffset: 0;
+        yoffset: 12;
+        zoffset: 0;        
+        xextent: 16;
+        yextent: 4;
+        zextent: 4;
+        recolour_mode: RECOLOUR_REMAP;
+        palette:       PALETTE_USE_DEFAULT;
+    }
+    building {
+        sprite: spriteset_Bue_Sig_Off_L (0);
+        hide_sprite: 1 - animation_frame;
+        xoffset: 0;
+        yoffset: 12;
+        zoffset: 0;        
+        xextent: 16;
+        yextent: 4;
+        zextent: 4;
+        recolour_mode: RECOLOUR_REMAP;
+        palette:       PALETTE_USE_DEFAULT;
+    } 
+    
+    
+}
+
+
+spritelayout Bue_Sig_On_L_Y(a) {
+    ground {
+        sprite: 1011 + a; // prevent railtype offset
+    }
+    building {
+        sprite: spriteset_Bue_Sig_On_L (1);
+        hide_sprite: animation_frame;
+        xoffset: 12;
+        yoffset: 0;
+        zoffset: 0;        
+        xextent: 4;
+        yextent: 16;
+        zextent: 4;
+        recolour_mode: RECOLOUR_REMAP;
+        palette:       PALETTE_USE_DEFAULT;
+    }
+    building {
+        sprite: spriteset_Bue_Sig_Off_L (1);
+        hide_sprite: 1 - animation_frame;
+        xoffset: 12;
+        yoffset: 0;
+        zoffset: 0;        
+        xextent: 4;
+        yextent: 16;
+        zextent: 4;
+        recolour_mode: RECOLOUR_REMAP;
+        palette:       PALETTE_USE_DEFAULT;
+    } 
+    
+    
+}
+
+
+item(FEAT_STATIONS, Bue_Sig_L) {
+    property {
+        /* The class allows to sort stations into categories. */
+        class:                  "WAYP";
+        /* If no other NewGRF provides this class before us, we have to name it */
+        classname:              string(STR_NAME_STATCLASS);
+        /* Name of this particular station */
+        name:                   string(STR_NAME_STATION);
+        general_flags:		 	bitmask(STAT_FLAG_RANDOM_ANIMATION);
+        animation_triggers:     bitmask(STAT_ANIM_256_TICKS,);
+        animation_info:			[ANIMATION_LOOPING, 2];
+        animation_speed:		4;      
+        draw_pylon_tiles: 0;
+        hide_wire_tiles: 0xFF;
+        
+    }
+    graphics {
+        sprite_layouts: [Bue_Sig_On_L_X(0), Bue_Sig_On_L_Y(0)];
+        purchase: spriteset_Bue_Sig_On_L;
+        	anim_control:    	return CB_RESULT_NEXT_FRAME;
+		anim_next_frame: 	return CB_RESULT_NEXT_FRAME;
+        
+    }
+}
+
+
+spriteset(spriteset_Bue_Sig_On_R, "gfx/Bue_Sig_R/Bue_Sig_On_R_1x_8bpp.png")
+									{ template_waypoint_1x(0, 0)}
+				
+	alternative_sprites (spriteset_Bue_Sig_On_R, ZOOM_LEVEL_NORMAL, BIT_DEPTH_32BPP, "gfx/Bue_Sig_R/Bue_Sig_On_R_1x_32bpp.png", "gfx/Bue_Sig_R/Bue_Sig_On_R_1x_mask.png")
+									{ template_waypoint_1x(0, 0)}
+				
+	alternative_sprites (spriteset_Bue_Sig_On_R, ZOOM_LEVEL_IN_2X, BIT_DEPTH_32BPP, "gfx/Bue_Sig_R/Bue_Sig_On_R_2x_32bpp.png", "gfx/Bue_Sig_R/Bue_Sig_On_R_2x_mask.png")
+									{ template_waypoint_2x(0, 0)}
+				
+	alternative_sprites (spriteset_Bue_Sig_On_R, ZOOM_LEVEL_IN_4X, BIT_DEPTH_32BPP, "gfx/Bue_Sig_R/Bue_Sig_On_R_4x_32bpp.png", "gfx/Bue_Sig_R/Bue_Sig_On_R_4x_mask.png")
+									{ template_waypoint_4x(0, 0)}
+
+spriteset(spriteset_Bue_Sig_Off_R, "gfx/Bue_Sig_R/Bue_Sig_Off_R_1x_8bpp.png")
+									{ template_waypoint_1x(0, 0)}
+				
+	alternative_sprites (spriteset_Bue_Sig_Off_R, ZOOM_LEVEL_NORMAL, BIT_DEPTH_32BPP, "gfx/Bue_Sig_R/Bue_Sig_Off_R_1x_32bpp.png", "gfx/Bue_Sig_R/Bue_Sig_Off_R_1x_mask.png")
+									{ template_waypoint_1x(0, 0)}
+				
+	alternative_sprites (spriteset_Bue_Sig_Off_R, ZOOM_LEVEL_IN_2X, BIT_DEPTH_32BPP, "gfx/Bue_Sig_R/Bue_Sig_Off_R_2x_32bpp.png", "gfx/Bue_Sig_R/Bue_Sig_Off_R_2x_mask.png")
+									{ template_waypoint_2x(0, 0)}
+				
+	alternative_sprites (spriteset_Bue_Sig_Off_R, ZOOM_LEVEL_IN_4X, BIT_DEPTH_32BPP, "gfx/Bue_Sig_R/Bue_Sig_Off_R_4x_32bpp.png", "gfx/Bue_Sig_R/Bue_Sig_Off_R_4x_mask.png")
+									{ template_waypoint_4x(0, 0)}								
+
+
+spritelayout Bue_Sig_On_R_X(a) {
+    ground {
+        sprite: 1012 + a; // prevent railtype offset
+    }
+    building {
+        sprite: spriteset_Bue_Sig_On_R (0);
+        hide_sprite: animation_frame;
+        xoffset: 0;
+        yoffset: 0;
+        zoffset: 0;        
+        xextent: 16;
+        yextent: 4;
+        zextent: 4;
+        recolour_mode: RECOLOUR_REMAP;
+        palette:       PALETTE_USE_DEFAULT;
+    }
+    building {
+        sprite: spriteset_Bue_Sig_Off_R (0);
+        hide_sprite: 1 - animation_frame;
+        xoffset: 0;
+        yoffset: 0;
+        zoffset: 0;        
+        xextent: 16;
+        yextent: 4;
+        zextent: 4;
+        recolour_mode: RECOLOUR_REMAP;
+        palette:       PALETTE_USE_DEFAULT;
+    } 
+    
+    
+}
+
+
+spritelayout Bue_Sig_On_R_Y(a) {
+    ground {
+        sprite: 1011 + a; // prevent railtype offset
+    }
+    building {
+        sprite: spriteset_Bue_Sig_On_R (1);
+        hide_sprite: animation_frame;
+        xoffset: 0;
+        yoffset: 0;
+        zoffset: 0;        
+        xextent: 4;
+        yextent: 16;
+        zextent: 4;
+        recolour_mode: RECOLOUR_REMAP;
+        palette:       PALETTE_USE_DEFAULT;
+    }
+    building {
+        sprite: spriteset_Bue_Sig_Off_R (1);
+        hide_sprite: 1 - animation_frame;
+        xoffset: 0;
+        yoffset: 0;
+        zoffset: 0;        
+        xextent: 4;
+        yextent: 16;
+        zextent: 4;
+        recolour_mode: RECOLOUR_REMAP;
+        palette:       PALETTE_USE_DEFAULT;
+    } 
+    
+    
+}
+
+
+item(FEAT_STATIONS, Bue_Sig_R) {
+    property {
+        /* The class allows to sort stations into categories. */
+        class:                  "WAYP";
+        /* If no other NewGRF provides this class before us, we have to name it */
+        classname:              string(STR_NAME_STATCLASS);
+        /* Name of this particular station */
+        name:                   string(STR_NAME_STATION);
+        general_flags:		 	bitmask(STAT_FLAG_RANDOM_ANIMATION);
+        animation_triggers:     bitmask(STAT_ANIM_256_TICKS,);
+        animation_info:			[ANIMATION_LOOPING, 2];
+        animation_speed:		4;      
+        draw_pylon_tiles: 0;
+        hide_wire_tiles: 0xFF;
+        
+    }
+    graphics {
+        sprite_layouts: [Bue_Sig_On_R_X(0), Bue_Sig_On_R_Y(0)];       
+        anim_control:    	return CB_RESULT_NEXT_FRAME;
+		anim_next_frame: 	return CB_RESULT_NEXT_FRAME;
+		purchase: spriteset_Bue_Sig_On_R;
+        
+    }
+}
+
+
+
+
+//######################
+//###Ende_Oberleitung###				
+//######################
+
+
+
+spriteset(spriteset_Ende_Oberleitung_L, "gfx/Ende_Oberleitung_L/Ende_Oberleitung_L_1x_8bpp.png")
+									{ template_waypoint_1x(0, 0)}
+				
+	alternative_sprites (spriteset_Ende_Oberleitung_L, ZOOM_LEVEL_NORMAL, BIT_DEPTH_32BPP, "gfx/Ende_Oberleitung_L/Ende_Oberleitung_L_1x_32bpp.png", "gfx/Ende_Oberleitung_L/Ende_Oberleitung_L_1x_mask.png")
+									{ template_waypoint_1x(0, 0)}
+				
+	alternative_sprites (spriteset_Ende_Oberleitung_L, ZOOM_LEVEL_IN_2X, BIT_DEPTH_32BPP, "gfx/Ende_Oberleitung_L/Ende_Oberleitung_L_2x_32bpp.png", "gfx/Ende_Oberleitung_L/Ende_Oberleitung_L_2x_mask.png")
+									{ template_waypoint_2x(0, 0)}
+				
+	alternative_sprites (spriteset_Ende_Oberleitung_L, ZOOM_LEVEL_IN_4X, BIT_DEPTH_32BPP, "gfx/Ende_Oberleitung_L/Ende_Oberleitung_L_4x_32bpp.png", "gfx/Ende_Oberleitung_L/Ende_Oberleitung_L_4x_mask.png")
+									{ template_waypoint_4x(0, 0)}
+
+spritelayout Ende_Oberleitung_L_X(a) {
+    ground {
+        sprite: 1012 + a; // prevent railtype offset
+    }
+    building {
+        sprite: spriteset_Ende_Oberleitung_L (0); // first sprite in active spriteset
+        xoffset: 0;
+        yoffset: 12;
+        zoffset: 0;        
+        xextent: 16;
+        yextent: 4;
+        zextent: 4;
+        recolour_mode: RECOLOUR_REMAP;
+        palette:       PALETTE_USE_DEFAULT;
+    }
+}
+
+spritelayout Ende_Oberleitung_L_Y(a) {
+    ground {
+        sprite: 1011 + a; // prevent railtype offset
+    }
+    building {
+        sprite: spriteset_Ende_Oberleitung_L(1); // second sprite in active spriteset
+        xoffset: 12;
+        yoffset: 0;
+        zoffset: 0;        
+        xextent: 4;
+        yextent: 16;
+        zextent: 4;
+        recolour_mode: RECOLOUR_REMAP;
+        palette:       PALETTE_USE_DEFAULT;
+    }
+}
+
+item(FEAT_STATIONS, Ende_Oberleitung_L) {
+    property {
+        /* The class allows to sort stations into categories. */
+        class:                  "WAYP";
+        /* If no other NewGRF provides this class before us, we have to name it */
+        classname:              string(STR_NAME_STATCLASS);
+        /* Name of this particular station */
+        name:                   string(STR_NAME_STATION);
+        draw_pylon_tiles: 0;
+        hide_wire_tiles: 0xFF;
+        
+    }
+    graphics {
+        sprite_layouts: [Ende_Oberleitung_L_X(0), Ende_Oberleitung_L_Y(0)];
+        purchase: spriteset_Ende_Oberleitung_L;
+        
+    }
+}
+
+
+spriteset(spriteset_Ende_Oberleitung_R, "gfx/Ende_Oberleitung_R/Ende_Oberleitung_R_1x_8bpp.png")
+									{ template_waypoint_1x(0, 0)}
+				
+	alternative_sprites (spriteset_Ende_Oberleitung_R, ZOOM_LEVEL_NORMAL, BIT_DEPTH_32BPP, "gfx/Ende_Oberleitung_R/Ende_Oberleitung_R_1x_32bpp.png", "gfx/Ende_Oberleitung_R/Ende_Oberleitung_R_1x_mask.png")
+									{ template_waypoint_1x(0, 0)}
+				
+	alternative_sprites (spriteset_Ende_Oberleitung_R, ZOOM_LEVEL_IN_2X, BIT_DEPTH_32BPP, "gfx/Ende_Oberleitung_R/Ende_Oberleitung_R_2x_32bpp.png", "gfx/Ende_Oberleitung_R/Ende_Oberleitung_R_2x_mask.png")
+									{ template_waypoint_2x(0, 0)}
+				
+	alternative_sprites (spriteset_Ende_Oberleitung_R, ZOOM_LEVEL_IN_4X, BIT_DEPTH_32BPP, "gfx/Ende_Oberleitung_R/Ende_Oberleitung_R_4x_32bpp.png", "gfx/Ende_Oberleitung_R/Ende_Oberleitung_R_4x_mask.png")
+									{ template_waypoint_4x(0, 0)}
+
+spritelayout Ende_Oberleitung_R_X(a) {
+    ground {
+        sprite: 1012 + a; // prevent railtype offset
+    }
+    building {
+        sprite: spriteset_Ende_Oberleitung_R (0); // first sprite in active spriteset
+        xoffset: 0;
+        yoffset: 0;
+        zoffset: 0;        
+        xextent: 16;
+        yextent: 4;
+        zextent: 4;
+        recolour_mode: RECOLOUR_REMAP;
+        palette:       PALETTE_USE_DEFAULT;
+    }
+}
+
+spritelayout Ende_Oberleitung_R_Y(a) {
+    ground {
+        sprite: 1011 + a; // prevent railtype offset
+    }
+    building {
+        sprite: spriteset_Ende_Oberleitung_R(1); // second sprite in active spriteset
+        xoffset: 0;
+        yoffset: 0;
+        zoffset: 0;        
+        xextent: 4;
+        yextent: 16;
+        zextent: 4;
+        recolour_mode: RECOLOUR_REMAP;
+        palette:       PALETTE_USE_DEFAULT;
+    }
+}
+
+item(FEAT_STATIONS, Ende_Oberleitung_R) {
+    property {
+        /* The class allows to sort stations into categories. */
+        class:                  "WAYP";
+        /* If no other NewGRF provides this class before us, we have to name it */
+        classname:              string(STR_NAME_STATCLASS);
+        /* Name of this particular station */
+        name:                   string(STR_NAME_STATION);
+        draw_pylon_tiles: 0;
+        hide_wire_tiles: 0xFF;
+        
+    }
+    graphics {
+        sprite_layouts: [Ende_Oberleitung_R_X(0), Ende_Oberleitung_R_Y(0)];
+        purchase: spriteset_Ende_Oberleitung_R;
+        
+    }
+}
+
+
+//#################
+//###Rangierhalt###				
+//#################
+
+
+
+spriteset(spriteset_Rangierhalt_L, "gfx/Rangierhalt_L/Rangierhalt_L_1x_8bpp.png")
+									{ template_waypoint_1x(0, 0)}
+				
+	alternative_sprites (spriteset_Rangierhalt_L, ZOOM_LEVEL_NORMAL, BIT_DEPTH_32BPP, "gfx/Rangierhalt_L/Rangierhalt_L_1x_32bpp.png", "gfx/Rangierhalt_L/Rangierhalt_L_1x_mask.png")
+									{ template_waypoint_1x(0, 0)}
+				
+	alternative_sprites (spriteset_Rangierhalt_L, ZOOM_LEVEL_IN_2X, BIT_DEPTH_32BPP, "gfx/Rangierhalt_L/Rangierhalt_L_2x_32bpp.png", "gfx/Rangierhalt_L/Rangierhalt_L_2x_mask.png")
+									{ template_waypoint_2x(0, 0)}
+				
+	alternative_sprites (spriteset_Rangierhalt_L, ZOOM_LEVEL_IN_4X, BIT_DEPTH_32BPP, "gfx/Rangierhalt_L/Rangierhalt_L_4x_32bpp.png", "gfx/Rangierhalt_L/Rangierhalt_L_4x_mask.png")
+									{ template_waypoint_4x(0, 0)}
+
+spritelayout Rangierhalt_L_X(a) {
+    ground {
+        sprite: 1012 + a; // prevent railtype offset
+    }
+    building {
+        sprite: spriteset_Rangierhalt_L (0); // first sprite in active spriteset
+        xoffset: 0;
+        yoffset: 12;
+        zoffset: 0;        
+        xextent: 16;
+        yextent: 4;
+        zextent: 4;
+        recolour_mode: RECOLOUR_REMAP;
+        palette:       PALETTE_USE_DEFAULT;
+    }
+}
+
+spritelayout Rangierhalt_L_Y(a) {
+    ground {
+        sprite: 1011 + a; // prevent railtype offset
+    }
+    building {
+        sprite: spriteset_Rangierhalt_L(1); // second sprite in active spriteset
+        xoffset: 12;
+        yoffset: 0;
+        zoffset: 0;        
+        xextent: 4;
+        yextent: 16;
+        zextent: 4;
+        recolour_mode: RECOLOUR_REMAP;
+        palette:       PALETTE_USE_DEFAULT;
+    }
+}
+
+item(FEAT_STATIONS, Rangierhalt_L) {
+    property {
+        /* The class allows to sort stations into categories. */
+        class:                  "WAYP";
+        /* If no other NewGRF provides this class before us, we have to name it */
+        classname:              string(STR_NAME_STATCLASS);
+        /* Name of this particular station */
+        name:                   string(STR_NAME_STATION);
+        draw_pylon_tiles: 0;
+        hide_wire_tiles: 0xFF;
+        
+    }
+    graphics {
+        sprite_layouts: [Rangierhalt_L_X(0), Rangierhalt_L_Y(0)];
+        purchase: spriteset_Rangierhalt_L;
+        
+    }
+}
+
+
+spriteset(spriteset_Rangierhalt_R, "gfx/Rangierhalt_R/Rangierhalt_R_1x_8bpp.png")
+									{ template_waypoint_1x(0, 0)}
+				
+	alternative_sprites (spriteset_Rangierhalt_R, ZOOM_LEVEL_NORMAL, BIT_DEPTH_32BPP, "gfx/Rangierhalt_R/Rangierhalt_R_1x_32bpp.png", "gfx/Rangierhalt_R/Rangierhalt_R_1x_mask.png")
+									{ template_waypoint_1x(0, 0)}
+				
+	alternative_sprites (spriteset_Rangierhalt_R, ZOOM_LEVEL_IN_2X, BIT_DEPTH_32BPP, "gfx/Rangierhalt_R/Rangierhalt_R_2x_32bpp.png", "gfx/Rangierhalt_R/Rangierhalt_R_2x_mask.png")
+									{ template_waypoint_2x(0, 0)}
+				
+	alternative_sprites (spriteset_Rangierhalt_R, ZOOM_LEVEL_IN_4X, BIT_DEPTH_32BPP, "gfx/Rangierhalt_R/Rangierhalt_R_4x_32bpp.png", "gfx/Rangierhalt_R/Rangierhalt_R_4x_mask.png")
+									{ template_waypoint_4x(0, 0)}
+
+spritelayout Rangierhalt_R_X(a) {
+    ground {
+        sprite: 1012 + a; // prevent railtype offset
+    }
+    building {
+        sprite: spriteset_Rangierhalt_R (0); // first sprite in active spriteset
+        xoffset: 0;
+        yoffset: 0;
+        zoffset: 0;        
+        xextent: 16;
+        yextent: 4;
+        zextent: 4;
+        recolour_mode: RECOLOUR_REMAP;
+        palette:       PALETTE_USE_DEFAULT;
+    }
+}
+
+spritelayout Rangierhalt_R_Y(a) {
+    ground {
+        sprite: 1011 + a; // prevent railtype offset
+    }
+    building {
+        sprite: spriteset_Rangierhalt_R(1); // second sprite in active spriteset
+        xoffset: 0;
+        yoffset: 0;
+        zoffset: 0;        
+        xextent: 4;
+        yextent: 16;
+        zextent: 4;
+        recolour_mode: RECOLOUR_REMAP;
+        palette:       PALETTE_USE_DEFAULT;
+    }
+}
+
+item(FEAT_STATIONS, Rangierhalt_R) {
+    property {
+        /* The class allows to sort stations into categories. */
+        class:                  "WAYP";
+        /* If no other NewGRF provides this class before us, we have to name it */
+        classname:              string(STR_NAME_STATCLASS);
+        /* Name of this particular station */
+        name:                   string(STR_NAME_STATION);
+        draw_pylon_tiles: 0;
+        hide_wire_tiles: 0xFF;
+        
+    }
+    graphics {
+        sprite_layouts: [Rangierhalt_R_X(0), Rangierhalt_R_Y(0)];
+        purchase: spriteset_Rangierhalt_R;
+        
+    }
+}
+
+
+//##################
+//###Fernsprecher###				
+//##################
+
+
+
+spriteset(spriteset_Fernsprecher_L, "gfx/Fernsprecher_L/Fernsprecher_L_1x_8bpp.png")
+									{ template_waypoint_1x(0, 0)}
+				
+	alternative_sprites (spriteset_Fernsprecher_L, ZOOM_LEVEL_NORMAL, BIT_DEPTH_32BPP, "gfx/Fernsprecher_L/Fernsprecher_L_1x_32bpp.png", "gfx/Fernsprecher_L/Fernsprecher_L_1x_mask.png")
+									{ template_waypoint_1x(0, 0)}
+				
+	alternative_sprites (spriteset_Fernsprecher_L, ZOOM_LEVEL_IN_2X, BIT_DEPTH_32BPP, "gfx/Fernsprecher_L/Fernsprecher_L_2x_32bpp.png", "gfx/Fernsprecher_L/Fernsprecher_L_2x_mask.png")
+									{ template_waypoint_2x(0, 0)}
+				
+	alternative_sprites (spriteset_Fernsprecher_L, ZOOM_LEVEL_IN_4X, BIT_DEPTH_32BPP, "gfx/Fernsprecher_L/Fernsprecher_L_4x_32bpp.png", "gfx/Fernsprecher_L/Fernsprecher_L_4x_mask.png")
+									{ template_waypoint_4x(0, 0)}
+
+spritelayout Fernsprecher_L_X(a) {
+    ground {
+        sprite: 1012 + a; // prevent railtype offset
+    }
+    building {
+        sprite: spriteset_Fernsprecher_L (0); // first sprite in active spriteset
+        xoffset: 0;
+        yoffset: 12;
+        zoffset: 0;        
+        xextent: 16;
+        yextent: 4;
+        zextent: 4;
+        recolour_mode: RECOLOUR_REMAP;
+        palette:       PALETTE_USE_DEFAULT;
+    }
+}
+
+spritelayout Fernsprecher_L_Y(a) {
+    ground {
+        sprite: 1011 + a; // prevent railtype offset
+    }
+    building {
+        sprite: spriteset_Fernsprecher_L(1); // second sprite in active spriteset
+        xoffset: 12;
+        yoffset: 0;
+        zoffset: 0;        
+        xextent: 4;
+        yextent: 16;
+        zextent: 4;
+        recolour_mode: RECOLOUR_REMAP;
+        palette:       PALETTE_USE_DEFAULT;
+    }
+}
+
+item(FEAT_STATIONS, Fernsprecher_L) {
+    property {
+        /* The class allows to sort stations into categories. */
+        class:                  "WAYP";
+        /* If no other NewGRF provides this class before us, we have to name it */
+        classname:              string(STR_NAME_STATCLASS);
+        /* Name of this particular station */
+        name:                   string(STR_NAME_STATION);
+        draw_pylon_tiles: 0;
+        hide_wire_tiles: 0xFF;
+        
+    }
+    graphics {
+        sprite_layouts: [Fernsprecher_L_X(0), Fernsprecher_L_Y(0)];
+        purchase: spriteset_Fernsprecher_L;
+        
+    }
+}
+
+
+spriteset(spriteset_Fernsprecher_R, "gfx/Fernsprecher_R/Fernsprecher_R_1x_8bpp.png")
+									{ template_waypoint_1x(0, 0)}
+				
+	alternative_sprites (spriteset_Fernsprecher_R, ZOOM_LEVEL_NORMAL, BIT_DEPTH_32BPP, "gfx/Fernsprecher_R/Fernsprecher_R_1x_32bpp.png", "gfx/Fernsprecher_R/Fernsprecher_R_1x_mask.png")
+									{ template_waypoint_1x(0, 0)}
+				
+	alternative_sprites (spriteset_Fernsprecher_R, ZOOM_LEVEL_IN_2X, BIT_DEPTH_32BPP, "gfx/Fernsprecher_R/Fernsprecher_R_2x_32bpp.png", "gfx/Fernsprecher_R/Fernsprecher_R_2x_mask.png")
+									{ template_waypoint_2x(0, 0)}
+				
+	alternative_sprites (spriteset_Fernsprecher_R, ZOOM_LEVEL_IN_4X, BIT_DEPTH_32BPP, "gfx/Fernsprecher_R/Fernsprecher_R_4x_32bpp.png", "gfx/Fernsprecher_R/Fernsprecher_R_4x_mask.png")
+									{ template_waypoint_4x(0, 0)}
+
+spritelayout Fernsprecher_R_X(a) {
+    ground {
+        sprite: 1012 + a; // prevent railtype offset
+    }
+    building {
+        sprite: spriteset_Fernsprecher_R (0); // first sprite in active spriteset
+        xoffset: 0;
+        yoffset: 0;
+        zoffset: 0;        
+        xextent: 16;
+        yextent: 4;
+        zextent: 4;
+        recolour_mode: RECOLOUR_REMAP;
+        palette:       PALETTE_USE_DEFAULT;
+    }
+}
+
+spritelayout Fernsprecher_R_Y(a) {
+    ground {
+        sprite: 1011 + a; // prevent railtype offset
+    }
+    building {
+        sprite: spriteset_Fernsprecher_R(1); // second sprite in active spriteset
+        xoffset: 0;
+        yoffset: 0;
+        zoffset: 0;        
+        xextent: 4;
+        yextent: 16;
+        zextent: 4;
+        recolour_mode: RECOLOUR_REMAP;
+        palette:       PALETTE_USE_DEFAULT;
+    }
+}
+
+item(FEAT_STATIONS, Fernsprecher_R) {
+    property {
+        /* The class allows to sort stations into categories. */
+        class:                  "WAYP";
+        /* If no other NewGRF provides this class before us, we have to name it */
+        classname:              string(STR_NAME_STATCLASS);
+        /* Name of this particular station */
+        name:                   string(STR_NAME_STATION);
+        draw_pylon_tiles: 0;
+        hide_wire_tiles: 0xFF;
+        
+    }
+    graphics {
+        sprite_layouts: [Fernsprecher_R_X(0), Fernsprecher_R_Y(0)];
+        purchase: spriteset_Fernsprecher_R;
+        
+    }
+}
+
+
+//#############
+//###STW_Eutin1###				
+//#############
+
+
+
+spriteset(spriteset_STW_Eutin1_L, "gfx/STW_Eutin1_L/STW_Eutin1_L_1x_8bpp.png")
+									{ template_waypoint_1x(0, 0)}
+				
+	alternative_sprites (spriteset_STW_Eutin1_L, ZOOM_LEVEL_NORMAL, BIT_DEPTH_32BPP, "gfx/STW_Eutin1_L/STW_Eutin1_L_1x_32bpp.png", "gfx/STW_Eutin1_L/STW_Eutin1_L_1x_mask.png")
+									{ template_waypoint_1x(0, 0)}
+				
+	alternative_sprites (spriteset_STW_Eutin1_L, ZOOM_LEVEL_IN_2X, BIT_DEPTH_32BPP, "gfx/STW_Eutin1_L/STW_Eutin1_L_2x_32bpp.png", "gfx/STW_Eutin1_L/STW_Eutin1_L_2x_mask.png")
+									{ template_waypoint_2x(0, 0)}
+				
+	alternative_sprites (spriteset_STW_Eutin1_L, ZOOM_LEVEL_IN_4X, BIT_DEPTH_32BPP, "gfx/STW_Eutin1_L/STW_Eutin1_L_4x_32bpp.png", "gfx/STW_Eutin1_L/STW_Eutin1_L_4x_mask.png")
+									{ template_waypoint_4x(0, 0)}
+
+spritelayout STW_Eutin1_L_X(a) {
+    ground {
+        sprite: 1012 + a; // prevent railtype offset
+    }
+    building {
+        sprite: spriteset_STW_Eutin1_L (0); // first sprite in active spriteset
+        xoffset: 0;
+        yoffset: 12;
+        zoffset: 0;        
+        xextent: 16;
+        yextent: 4;
+        zextent: 4;
+        recolour_mode: RECOLOUR_REMAP;
+        palette:       PALETTE_USE_DEFAULT;
+    }
+}
+
+spritelayout STW_Eutin1_L_Y(a) {
+    ground {
+        sprite: 1011 + a; // prevent railtype offset
+    }
+    building {
+        sprite: spriteset_STW_Eutin1_L(1); // second sprite in active spriteset
+        xoffset: 12;
+        yoffset: 0;
+        zoffset: 0;        
+        xextent: 4;
+        yextent: 16;
+        zextent: 4;
+        recolour_mode: RECOLOUR_REMAP;
+        palette:       PALETTE_USE_DEFAULT;
+    }
+}
+
+item(FEAT_STATIONS, STW_Eutin1_L) {
+    property {
+        /* The class allows to sort stations into categories. */
+        class:                  "WAYP";
+        /* If no other NewGRF provides this class before us, we have to name it */
+        classname:              string(STR_NAME_STATCLASS);
+        /* Name of this particular station */
+        name:                   string(STR_NAME_STATION);
+        draw_pylon_tiles: 0;
+        hide_wire_tiles: 0xFF;
+        
+    }
+    graphics {
+        sprite_layouts: [STW_Eutin1_L_X(0), STW_Eutin1_L_Y(0)];
+        purchase: spriteset_STW_Eutin1_L;
+        
+    }
+}
+
+
+spriteset(spriteset_STW_Eutin1_R, "gfx/STW_Eutin1_R/STW_Eutin1_R_1x_8bpp.png")
+									{ template_waypoint_1x(0, 0)}
+				
+	alternative_sprites (spriteset_STW_Eutin1_R, ZOOM_LEVEL_NORMAL, BIT_DEPTH_32BPP, "gfx/STW_Eutin1_R/STW_Eutin1_R_1x_32bpp.png", "gfx/STW_Eutin1_R/STW_Eutin1_R_1x_mask.png")
+									{ template_waypoint_1x(0, 0)}
+				
+	alternative_sprites (spriteset_STW_Eutin1_R, ZOOM_LEVEL_IN_2X, BIT_DEPTH_32BPP, "gfx/STW_Eutin1_R/STW_Eutin1_R_2x_32bpp.png", "gfx/STW_Eutin1_R/STW_Eutin1_R_2x_mask.png")
+									{ template_waypoint_2x(0, 0)}
+				
+	alternative_sprites (spriteset_STW_Eutin1_R, ZOOM_LEVEL_IN_4X, BIT_DEPTH_32BPP, "gfx/STW_Eutin1_R/STW_Eutin1_R_4x_32bpp.png", "gfx/STW_Eutin1_R/STW_Eutin1_R_4x_mask.png")
+									{ template_waypoint_4x(0, 0)}
+
+spritelayout STW_Eutin1_R_X(a) {
+    ground {
+        sprite: 1012 + a; // prevent railtype offset
+    }
+    building {
+        sprite: spriteset_STW_Eutin1_R (0); // first sprite in active spriteset
+        xoffset: 0;
+        yoffset: 0;
+        zoffset: 0;        
+        xextent: 16;
+        yextent: 4;
+        zextent: 4;
+        recolour_mode: RECOLOUR_REMAP;
+        palette:       PALETTE_USE_DEFAULT;
+    }
+}
+
+spritelayout STW_Eutin1_R_Y(a) {
+    ground {
+        sprite: 1011 + a; // prevent railtype offset
+    }
+    building {
+        sprite: spriteset_STW_Eutin1_R(1); // second sprite in active spriteset
+        xoffset: 0;
+        yoffset: 0;
+        zoffset: 0;        
+        xextent: 4;
+        yextent: 16;
+        zextent: 4;
+        recolour_mode: RECOLOUR_REMAP;
+        palette:       PALETTE_USE_DEFAULT;
+    }
+}
+
+item(FEAT_STATIONS, STW_Eutin1_R) {
+    property {
+        /* The class allows to sort stations into categories. */
+        class:                  "WAYP";
+        /* If no other NewGRF provides this class before us, we have to name it */
+        classname:              string(STR_NAME_STATCLASS);
+        /* Name of this particular station */
+        name:                   string(STR_NAME_STATION);
+        draw_pylon_tiles: 0;
+        hide_wire_tiles: 0xFF;
+        
+    }
+    graphics {
+        sprite_layouts: [STW_Eutin1_R_X(0), STW_Eutin1_R_Y(0)];
+        purchase: spriteset_STW_Eutin1_R;
+        
+    }
+}
+
+
+
+//###################
+//###STW_Gernsbach###				
+//###################
+
+
+
+spriteset(spriteset_STW_Gernsbach_L, "gfx/STW_Gernsbach_L/STW_Gernsbach_L_1x_8bpp.png")
+									{ template_waypoint_1x(0, 0)}
+				
+	alternative_sprites (spriteset_STW_Gernsbach_L, ZOOM_LEVEL_NORMAL, BIT_DEPTH_32BPP, "gfx/STW_Gernsbach_L/STW_Gernsbach_L_1x_32bpp.png", "gfx/STW_Gernsbach_L/STW_Gernsbach_L_1x_mask.png")
+									{ template_waypoint_1x(0, 0)}
+				
+	alternative_sprites (spriteset_STW_Gernsbach_L, ZOOM_LEVEL_IN_2X, BIT_DEPTH_32BPP, "gfx/STW_Gernsbach_L/STW_Gernsbach_L_2x_32bpp.png", "gfx/STW_Gernsbach_L/STW_Gernsbach_L_2x_mask.png")
+									{ template_waypoint_2x(0, 0)}
+				
+	alternative_sprites (spriteset_STW_Gernsbach_L, ZOOM_LEVEL_IN_4X, BIT_DEPTH_32BPP, "gfx/STW_Gernsbach_L/STW_Gernsbach_L_4x_32bpp.png", "gfx/STW_Gernsbach_L/STW_Gernsbach_L_4x_mask.png")
+									{ template_waypoint_4x(0, 0)}
+
+spritelayout STW_Gernsbach_L_X(a) {
+    ground {
+        sprite: 1012 + a; // prevent railtype offset
+    }
+    building {
+        sprite: spriteset_STW_Gernsbach_L (0); // first sprite in active spriteset
+        xoffset: 0;
+        yoffset: 12;
+        zoffset: 0;        
+        xextent: 16;
+        yextent: 4;
+        zextent: 4;
+        recolour_mode: RECOLOUR_REMAP;
+        palette:       PALETTE_USE_DEFAULT;
+    }
+}
+
+spritelayout STW_Gernsbach_L_Y(a) {
+    ground {
+        sprite: 1011 + a; // prevent railtype offset
+    }
+    building {
+        sprite: spriteset_STW_Gernsbach_L(1); // second sprite in active spriteset
+        xoffset: 12;
+        yoffset: 0;
+        zoffset: 0;        
+        xextent: 4;
+        yextent: 16;
+        zextent: 4;
+        recolour_mode: RECOLOUR_REMAP;
+        palette:       PALETTE_USE_DEFAULT;
+    }
+}
+
+item(FEAT_STATIONS, STW_Gernsbach_L) {
+    property {
+        /* The class allows to sort stations into categories. */
+        class:                  "WAYP";
+        /* If no other NewGRF provides this class before us, we have to name it */
+        classname:              string(STR_NAME_STATCLASS);
+        /* Name of this particular station */
+        name:                   string(STR_NAME_STATION);
+        draw_pylon_tiles: 0;
+        hide_wire_tiles: 0xFF;
+        
+    }
+    graphics {
+        sprite_layouts: [STW_Gernsbach_L_X(0), STW_Gernsbach_L_Y(0)];
+        purchase: spriteset_STW_Gernsbach_L;
+        
+    }
+}
+
+
+spriteset(spriteset_STW_Gernsbach_R, "gfx/STW_Gernsbach_R/STW_Gernsbach_R_1x_8bpp.png")
+									{ template_waypoint_1x(0, 0)}
+				
+	alternative_sprites (spriteset_STW_Gernsbach_R, ZOOM_LEVEL_NORMAL, BIT_DEPTH_32BPP, "gfx/STW_Gernsbach_R/STW_Gernsbach_R_1x_32bpp.png", "gfx/STW_Gernsbach_R/STW_Gernsbach_R_1x_mask.png")
+									{ template_waypoint_1x(0, 0)}
+				
+	alternative_sprites (spriteset_STW_Gernsbach_R, ZOOM_LEVEL_IN_2X, BIT_DEPTH_32BPP, "gfx/STW_Gernsbach_R/STW_Gernsbach_R_2x_32bpp.png", "gfx/STW_Gernsbach_R/STW_Gernsbach_R_2x_mask.png")
+									{ template_waypoint_2x(0, 0)}
+				
+	alternative_sprites (spriteset_STW_Gernsbach_R, ZOOM_LEVEL_IN_4X, BIT_DEPTH_32BPP, "gfx/STW_Gernsbach_R/STW_Gernsbach_R_4x_32bpp.png", "gfx/STW_Gernsbach_R/STW_Gernsbach_R_4x_mask.png")
+									{ template_waypoint_4x(0, 0)}
+
+spritelayout STW_Gernsbach_R_X(a) {
+    ground {
+        sprite: 1012 + a; // prevent railtype offset
+    }
+    building {
+        sprite: spriteset_STW_Gernsbach_R (0); // first sprite in active spriteset
+        xoffset: 0;
+        yoffset: 0;
+        zoffset: 0;        
+        xextent: 16;
+        yextent: 4;
+        zextent: 4;
+        recolour_mode: RECOLOUR_REMAP;
+        palette:       PALETTE_USE_DEFAULT;
+    }
+}
+
+spritelayout STW_Gernsbach_R_Y(a) {
+    ground {
+        sprite: 1011 + a; // prevent railtype offset
+    }
+    building {
+        sprite: spriteset_STW_Gernsbach_R(1); // second sprite in active spriteset
+        xoffset: 0;
+        yoffset: 0;
+        zoffset: 0;        
+        xextent: 4;
+        yextent: 16;
+        zextent: 4;
+        recolour_mode: RECOLOUR_REMAP;
+        palette:       PALETTE_USE_DEFAULT;
+    }
+}
+
+item(FEAT_STATIONS, STW_Gernsbach_R) {
+    property {
+        /* The class allows to sort stations into categories. */
+        class:                  "WAYP";
+        /* If no other NewGRF provides this class before us, we have to name it */
+        classname:              string(STR_NAME_STATCLASS);
+        /* Name of this particular station */
+        name:                   string(STR_NAME_STATION);
+        draw_pylon_tiles: 0;
+        hide_wire_tiles: 0xFF;
+        
+    }
+    graphics {
+        sprite_layouts: [STW_Gernsbach_R_X(0), STW_Gernsbach_R_Y(0)];
+        purchase: spriteset_STW_Gernsbach_R;
+        
+    }
+}
+
+
+//##################
+//###STW_Coesfeld###				
+//##################
+
+
+
+spriteset(spriteset_STW_Coesfeld_L, "gfx/STW_Coesfeld_L/STW_Coesfeld_L_1x_8bpp.png")
+									{ template_waypoint_1x(0, 0)}
+				
+	alternative_sprites (spriteset_STW_Coesfeld_L, ZOOM_LEVEL_NORMAL, BIT_DEPTH_32BPP, "gfx/STW_Coesfeld_L/STW_Coesfeld_L_1x_32bpp.png", "gfx/STW_Coesfeld_L/STW_Coesfeld_L_1x_mask.png")
+									{ template_waypoint_1x(0, 0)}
+				
+	alternative_sprites (spriteset_STW_Coesfeld_L, ZOOM_LEVEL_IN_2X, BIT_DEPTH_32BPP, "gfx/STW_Coesfeld_L/STW_Coesfeld_L_2x_32bpp.png", "gfx/STW_Coesfeld_L/STW_Coesfeld_L_2x_mask.png")
+									{ template_waypoint_2x(0, 0)}
+				
+	alternative_sprites (spriteset_STW_Coesfeld_L, ZOOM_LEVEL_IN_4X, BIT_DEPTH_32BPP, "gfx/STW_Coesfeld_L/STW_Coesfeld_L_4x_32bpp.png", "gfx/STW_Coesfeld_L/STW_Coesfeld_L_4x_mask.png")
+									{ template_waypoint_4x(0, 0)}
+
+spritelayout STW_Coesfeld_L_X(a) {
+    ground {
+        sprite: 1012 + a; // prevent railtype offset
+    }
+    building {
+        sprite: spriteset_STW_Coesfeld_L (0); // first sprite in active spriteset
+        xoffset: 0;
+        yoffset: 12;
+        zoffset: 0;        
+        xextent: 16;
+        yextent: 4;
+        zextent: 4;
+        recolour_mode: RECOLOUR_REMAP;
+        palette:       PALETTE_USE_DEFAULT;
+    }
+}
+
+spritelayout STW_Coesfeld_L_Y(a) {
+    ground {
+        sprite: 1011 + a; // prevent railtype offset
+    }
+    building {
+        sprite: spriteset_STW_Coesfeld_L(1); // second sprite in active spriteset
+        xoffset: 12;
+        yoffset: 0;
+        zoffset: 0;        
+        xextent: 4;
+        yextent: 16;
+        zextent: 4;
+        recolour_mode: RECOLOUR_REMAP;
+        palette:       PALETTE_USE_DEFAULT;
+    }
+}
+
+item(FEAT_STATIONS, STW_Coesfeld_L) {
+    property {
+        /* The class allows to sort stations into categories. */
+        class:                  "WAYP";
+        /* If no other NewGRF provides this class before us, we have to name it */
+        classname:              string(STR_NAME_STATCLASS);
+        /* Name of this particular station */
+        name:                   string(STR_NAME_STATION);
+        draw_pylon_tiles: 0;
+        hide_wire_tiles: 0xFF;
+        
+    }
+    graphics {
+        sprite_layouts: [STW_Coesfeld_L_X(0), STW_Coesfeld_L_Y(0)];
+        purchase: spriteset_STW_Coesfeld_L;
+        
+    }
+}
+
+
+spriteset(spriteset_STW_Coesfeld_R, "gfx/STW_Coesfeld_R/STW_Coesfeld_R_1x_8bpp.png")
+									{ template_waypoint_1x(0, 0)}
+				
+	alternative_sprites (spriteset_STW_Coesfeld_R, ZOOM_LEVEL_NORMAL, BIT_DEPTH_32BPP, "gfx/STW_Coesfeld_R/STW_Coesfeld_R_1x_32bpp.png", "gfx/STW_Coesfeld_R/STW_Coesfeld_R_1x_mask.png")
+									{ template_waypoint_1x(0, 0)}
+				
+	alternative_sprites (spriteset_STW_Coesfeld_R, ZOOM_LEVEL_IN_2X, BIT_DEPTH_32BPP, "gfx/STW_Coesfeld_R/STW_Coesfeld_R_2x_32bpp.png", "gfx/STW_Coesfeld_R/STW_Coesfeld_R_2x_mask.png")
+									{ template_waypoint_2x(0, 0)}
+				
+	alternative_sprites (spriteset_STW_Coesfeld_R, ZOOM_LEVEL_IN_4X, BIT_DEPTH_32BPP, "gfx/STW_Coesfeld_R/STW_Coesfeld_R_4x_32bpp.png", "gfx/STW_Coesfeld_R/STW_Coesfeld_R_4x_mask.png")
+									{ template_waypoint_4x(0, 0)}
+
+spritelayout STW_Coesfeld_R_X(a) {
+    ground {
+        sprite: 1012 + a; // prevent railtype offset
+    }
+    building {
+        sprite: spriteset_STW_Coesfeld_R (0); // first sprite in active spriteset
+        xoffset: 0;
+        yoffset: 0;
+        zoffset: 0;        
+        xextent: 16;
+        yextent: 4;
+        zextent: 4;
+        recolour_mode: RECOLOUR_REMAP;
+        palette:       PALETTE_USE_DEFAULT;
+    }
+}
+
+spritelayout STW_Coesfeld_R_Y(a) {
+    ground {
+        sprite: 1011 + a; // prevent railtype offset
+    }
+    building {
+        sprite: spriteset_STW_Coesfeld_R(1); // second sprite in active spriteset
+        xoffset: 0;
+        yoffset: 0;
+        zoffset: 0;        
+        xextent: 4;
+        yextent: 16;
+        zextent: 4;
+        recolour_mode: RECOLOUR_REMAP;
+        palette:       PALETTE_USE_DEFAULT;
+    }
+}
+
+item(FEAT_STATIONS, STW_Coesfeld_R) {
+    property {
+        /* The class allows to sort stations into categories. */
+        class:                  "WAYP";
+        /* If no other NewGRF provides this class before us, we have to name it */
+        classname:              string(STR_NAME_STATCLASS);
+        /* Name of this particular station */
+        name:                   string(STR_NAME_STATION);
+        draw_pylon_tiles: 0;
+        hide_wire_tiles: 0xFF;
+        
+    }
+    graphics {
+        sprite_layouts: [STW_Coesfeld_R_X(0), STW_Coesfeld_R_Y(0)];
+        purchase: spriteset_STW_Coesfeld_R;
+        
+    }
+}
+
+
+//##################
+//###STW_Ottbergen###				
+//##################
+
+
+
+spriteset(spriteset_STW_Ottbergen_L, "gfx/STW_Ottbergen_L/STW_Ottbergen_L_1x_8bpp.png")
+									{ template_waypoint_1x(0, 0)}
+				
+	alternative_sprites (spriteset_STW_Ottbergen_L, ZOOM_LEVEL_NORMAL, BIT_DEPTH_32BPP, "gfx/STW_Ottbergen_L/STW_Ottbergen_L_1x_32bpp.png", "gfx/STW_Ottbergen_L/STW_Ottbergen_L_1x_mask.png")
+									{ template_waypoint_1x(0, 0)}
+				
+	alternative_sprites (spriteset_STW_Ottbergen_L, ZOOM_LEVEL_IN_2X, BIT_DEPTH_32BPP, "gfx/STW_Ottbergen_L/STW_Ottbergen_L_2x_32bpp.png", "gfx/STW_Ottbergen_L/STW_Ottbergen_L_2x_mask.png")
+									{ template_waypoint_2x(0, 0)}
+				
+	alternative_sprites (spriteset_STW_Ottbergen_L, ZOOM_LEVEL_IN_4X, BIT_DEPTH_32BPP, "gfx/STW_Ottbergen_L/STW_Ottbergen_L_4x_32bpp.png", "gfx/STW_Ottbergen_L/STW_Ottbergen_L_4x_mask.png")
+									{ template_waypoint_4x(0, 0)}
+
+spritelayout STW_Ottbergen_L_X(a) {
+    ground {
+        sprite: 1012 + a; // prevent railtype offset
+    }
+    building {
+        sprite: spriteset_STW_Ottbergen_L (0); // first sprite in active spriteset
+        xoffset: 0;
+        yoffset: 12;
+        zoffset: 0;        
+        xextent: 16;
+        yextent: 4;
+        zextent: 4;
+        recolour_mode: RECOLOUR_REMAP;
+        palette:       PALETTE_USE_DEFAULT;
+    }
+}
+
+spritelayout STW_Ottbergen_L_Y(a) {
+    ground {
+        sprite: 1011 + a; // prevent railtype offset
+    }
+    building {
+        sprite: spriteset_STW_Ottbergen_L(1); // second sprite in active spriteset
+        xoffset: 12;
+        yoffset: 0;
+        zoffset: 0;        
+        xextent: 4;
+        yextent: 16;
+        zextent: 4;
+        recolour_mode: RECOLOUR_REMAP;
+        palette:       PALETTE_USE_DEFAULT;
+    }
+}
+
+item(FEAT_STATIONS, STW_Ottbergen_L) {
+    property {
+        /* The class allows to sort stations into categories. */
+        class:                  "WAYP";
+        /* If no other NewGRF provides this class before us, we have to name it */
+        classname:              string(STR_NAME_STATCLASS);
+        /* Name of this particular station */
+        name:                   string(STR_NAME_STATION);
+        draw_pylon_tiles: 0;
+        hide_wire_tiles: 0xFF;
+        
+    }
+    graphics {
+        sprite_layouts: [STW_Ottbergen_L_X(0), STW_Ottbergen_L_Y(0)];
+        purchase: spriteset_STW_Ottbergen_L;
+        
+    }
+}
+
+
+spriteset(spriteset_STW_Ottbergen_R, "gfx/STW_Ottbergen_R/STW_Ottbergen_R_1x_8bpp.png")
+									{ template_waypoint_1x(0, 0)}
+				
+	alternative_sprites (spriteset_STW_Ottbergen_R, ZOOM_LEVEL_NORMAL, BIT_DEPTH_32BPP, "gfx/STW_Ottbergen_R/STW_Ottbergen_R_1x_32bpp.png", "gfx/STW_Ottbergen_R/STW_Ottbergen_R_1x_mask.png")
+									{ template_waypoint_1x(0, 0)}
+				
+	alternative_sprites (spriteset_STW_Ottbergen_R, ZOOM_LEVEL_IN_2X, BIT_DEPTH_32BPP, "gfx/STW_Ottbergen_R/STW_Ottbergen_R_2x_32bpp.png", "gfx/STW_Ottbergen_R/STW_Ottbergen_R_2x_mask.png")
+									{ template_waypoint_2x(0, 0)}
+				
+	alternative_sprites (spriteset_STW_Ottbergen_R, ZOOM_LEVEL_IN_4X, BIT_DEPTH_32BPP, "gfx/STW_Ottbergen_R/STW_Ottbergen_R_4x_32bpp.png", "gfx/STW_Ottbergen_R/STW_Ottbergen_R_4x_mask.png")
+									{ template_waypoint_4x(0, 0)}
+
+spritelayout STW_Ottbergen_R_X(a) {
+    ground {
+        sprite: 1012 + a; // prevent railtype offset
+    }
+    building {
+        sprite: spriteset_STW_Ottbergen_R (0); // first sprite in active spriteset
+        xoffset: 0;
+        yoffset: 0;
+        zoffset: 0;        
+        xextent: 16;
+        yextent: 4;
+        zextent: 4;
+        recolour_mode: RECOLOUR_REMAP;
+        palette:       PALETTE_USE_DEFAULT;
+    }
+}
+
+spritelayout STW_Ottbergen_R_Y(a) {
+    ground {
+        sprite: 1011 + a; // prevent railtype offset
+    }
+    building {
+        sprite: spriteset_STW_Ottbergen_R(1); // second sprite in active spriteset
+        xoffset: 0;
+        yoffset: 0;
+        zoffset: 0;        
+        xextent: 4;
+        yextent: 16;
+        zextent: 4;
+        recolour_mode: RECOLOUR_REMAP;
+        palette:       PALETTE_USE_DEFAULT;
+    }
+}
+
+item(FEAT_STATIONS, STW_Ottbergen_R) {
+    property {
+        /* The class allows to sort stations into categories. */
+        class:                  "WAYP";
+        /* If no other NewGRF provides this class before us, we have to name it */
+        classname:              string(STR_NAME_STATCLASS);
+        /* Name of this particular station */
+        name:                   string(STR_NAME_STATION);
+        draw_pylon_tiles: 0;
+        hide_wire_tiles: 0xFF;
+        
+    }
+    graphics {
+        sprite_layouts: [STW_Ottbergen_R_X(0), STW_Ottbergen_R_Y(0)];
+        purchase: spriteset_STW_Ottbergen_R;
+        
+    }
+}
+
+
+//##################
+//###STW_Ottbergen2###				
+//##################
+
+
+
+spriteset(spriteset_STW_Ottbergen2_L, "gfx/STW_Ottbergen2_L/STW_Ottbergen2_L_1x_8bpp.png")
+									{ template_waypoint_1x(0, 0)}
+				
+	alternative_sprites (spriteset_STW_Ottbergen2_L, ZOOM_LEVEL_NORMAL, BIT_DEPTH_32BPP, "gfx/STW_Ottbergen2_L/STW_Ottbergen2_L_1x_32bpp.png", "gfx/STW_Ottbergen2_L/STW_Ottbergen2_L_1x_mask.png")
+									{ template_waypoint_1x(0, 0)}
+				
+	alternative_sprites (spriteset_STW_Ottbergen2_L, ZOOM_LEVEL_IN_2X, BIT_DEPTH_32BPP, "gfx/STW_Ottbergen2_L/STW_Ottbergen2_L_2x_32bpp.png", "gfx/STW_Ottbergen2_L/STW_Ottbergen2_L_2x_mask.png")
+									{ template_waypoint_2x(0, 0)}
+				
+	alternative_sprites (spriteset_STW_Ottbergen2_L, ZOOM_LEVEL_IN_4X, BIT_DEPTH_32BPP, "gfx/STW_Ottbergen2_L/STW_Ottbergen2_L_4x_32bpp.png", "gfx/STW_Ottbergen2_L/STW_Ottbergen2_L_4x_mask.png")
+									{ template_waypoint_4x(0, 0)}
+
+spritelayout STW_Ottbergen2_L_X(a) {
+    ground {
+        sprite: 1012 + a; // prevent railtype offset
+    }
+    building {
+        sprite: spriteset_STW_Ottbergen2_L (0); // first sprite in active spriteset
+        xoffset: 0;
+        yoffset: 12;
+        zoffset: 0;        
+        xextent: 16;
+        yextent: 4;
+        zextent: 4;
+        recolour_mode: RECOLOUR_REMAP;
+        palette:       PALETTE_USE_DEFAULT;
+    }
+}
+
+spritelayout STW_Ottbergen2_L_Y(a) {
+    ground {
+        sprite: 1011 + a; // prevent railtype offset
+    }
+    building {
+        sprite: spriteset_STW_Ottbergen2_L(1); // second sprite in active spriteset
+        xoffset: 12;
+        yoffset: 0;
+        zoffset: 0;        
+        xextent: 4;
+        yextent: 16;
+        zextent: 4;
+        recolour_mode: RECOLOUR_REMAP;
+        palette:       PALETTE_USE_DEFAULT;
+    }
+}
+
+item(FEAT_STATIONS, STW_Ottbergen2_L) {
+    property {
+        /* The class allows to sort stations into categories. */
+        class:                  "WAYP";
+        /* If no other NewGRF provides this class before us, we have to name it */
+        classname:              string(STR_NAME_STATCLASS);
+        /* Name of this particular station */
+        name:                   string(STR_NAME_STATION);
+        draw_pylon_tiles: 0;
+        hide_wire_tiles: 0xFF;
+        
+    }
+    graphics {
+        sprite_layouts: [STW_Ottbergen2_L_X(0), STW_Ottbergen2_L_Y(0)];
+        purchase: spriteset_STW_Ottbergen2_L;
+        
+    }
+}
+
+
+spriteset(spriteset_STW_Ottbergen2_R, "gfx/STW_Ottbergen2_R/STW_Ottbergen2_R_1x_8bpp.png")
+									{ template_waypoint_1x(0, 0)}
+				
+	alternative_sprites (spriteset_STW_Ottbergen2_R, ZOOM_LEVEL_NORMAL, BIT_DEPTH_32BPP, "gfx/STW_Ottbergen2_R/STW_Ottbergen2_R_1x_32bpp.png", "gfx/STW_Ottbergen2_R/STW_Ottbergen2_R_1x_mask.png")
+									{ template_waypoint_1x(0, 0)}
+				
+	alternative_sprites (spriteset_STW_Ottbergen2_R, ZOOM_LEVEL_IN_2X, BIT_DEPTH_32BPP, "gfx/STW_Ottbergen2_R/STW_Ottbergen2_R_2x_32bpp.png", "gfx/STW_Ottbergen2_R/STW_Ottbergen2_R_2x_mask.png")
+									{ template_waypoint_2x(0, 0)}
+				
+	alternative_sprites (spriteset_STW_Ottbergen2_R, ZOOM_LEVEL_IN_4X, BIT_DEPTH_32BPP, "gfx/STW_Ottbergen2_R/STW_Ottbergen2_R_4x_32bpp.png", "gfx/STW_Ottbergen2_R/STW_Ottbergen2_R_4x_mask.png")
+									{ template_waypoint_4x(0, 0)}
+
+spritelayout STW_Ottbergen2_R_X(a) {
+    ground {
+        sprite: 1012 + a; // prevent railtype offset
+    }
+    building {
+        sprite: spriteset_STW_Ottbergen2_R (0); // first sprite in active spriteset
+        xoffset: 0;
+        yoffset: 0;
+        zoffset: 0;        
+        xextent: 16;
+        yextent: 4;
+        zextent: 4;
+        recolour_mode: RECOLOUR_REMAP;
+        palette:       PALETTE_USE_DEFAULT;
+    }
+}
+
+spritelayout STW_Ottbergen2_R_Y(a) {
+    ground {
+        sprite: 1011 + a; // prevent railtype offset
+    }
+    building {
+        sprite: spriteset_STW_Ottbergen2_R(1); // second sprite in active spriteset
+        xoffset: 0;
+        yoffset: 0;
+        zoffset: 0;        
+        xextent: 4;
+        yextent: 16;
+        zextent: 4;
+        recolour_mode: RECOLOUR_REMAP;
+        palette:       PALETTE_USE_DEFAULT;
+    }
+}
+
+item(FEAT_STATIONS, STW_Ottbergen2_R) {
+    property {
+        /* The class allows to sort stations into categories. */
+        class:                  "WAYP";
+        /* If no other NewGRF provides this class before us, we have to name it */
+        classname:              string(STR_NAME_STATCLASS);
+        /* Name of this particular station */
+        name:                   string(STR_NAME_STATION);
+        draw_pylon_tiles: 0;
+        hide_wire_tiles: 0xFF;
+        
+    }
+    graphics {
+        sprite_layouts: [STW_Ottbergen2_R_X(0), STW_Ottbergen2_R_Y(0)];
+        purchase: spriteset_STW_Ottbergen2_R;
+        
+    }
+}
+
+
+//##################
+//###STW_Rothe_Erde###				
+//##################
+
+
+
+spriteset(spriteset_STW_Rothe_Erde_L, "gfx/STW_Rothe_Erde_L/STW_Rothe_Erde_L_1x_8bpp.png")
+									{ template_waypoint_1x(0, 0)}
+				
+	alternative_sprites (spriteset_STW_Rothe_Erde_L, ZOOM_LEVEL_NORMAL, BIT_DEPTH_32BPP, "gfx/STW_Rothe_Erde_L/STW_Rothe_Erde_L_1x_32bpp.png", "gfx/STW_Rothe_Erde_L/STW_Rothe_Erde_L_1x_mask.png")
+									{ template_waypoint_1x(0, 0)}
+				
+	alternative_sprites (spriteset_STW_Rothe_Erde_L, ZOOM_LEVEL_IN_2X, BIT_DEPTH_32BPP, "gfx/STW_Rothe_Erde_L/STW_Rothe_Erde_L_2x_32bpp.png", "gfx/STW_Rothe_Erde_L/STW_Rothe_Erde_L_2x_mask.png")
+									{ template_waypoint_2x(0, 0)}
+				
+	alternative_sprites (spriteset_STW_Rothe_Erde_L, ZOOM_LEVEL_IN_4X, BIT_DEPTH_32BPP, "gfx/STW_Rothe_Erde_L/STW_Rothe_Erde_L_4x_32bpp.png", "gfx/STW_Rothe_Erde_L/STW_Rothe_Erde_L_4x_mask.png")
+									{ template_waypoint_4x(0, 0)}
+
+spritelayout STW_Rothe_Erde_L_X(a) {
+    ground {
+        sprite: 1012 + a; // prevent railtype offset
+    }
+    building {
+        sprite: spriteset_STW_Rothe_Erde_L (0); // first sprite in active spriteset
+        xoffset: 0;
+        yoffset: 12;
+        zoffset: 0;        
+        xextent: 16;
+        yextent: 4;
+        zextent: 4;
+        recolour_mode: RECOLOUR_REMAP;
+        palette:       PALETTE_USE_DEFAULT;
+    }
+}
+
+spritelayout STW_Rothe_Erde_L_Y(a) {
+    ground {
+        sprite: 1011 + a; // prevent railtype offset
+    }
+    building {
+        sprite: spriteset_STW_Rothe_Erde_L(1); // second sprite in active spriteset
+        xoffset: 12;
+        yoffset: 0;
+        zoffset: 0;        
+        xextent: 4;
+        yextent: 16;
+        zextent: 4;
+        recolour_mode: RECOLOUR_REMAP;
+        palette:       PALETTE_USE_DEFAULT;
+    }
+}
+
+item(FEAT_STATIONS, STW_Rothe_Erde_L) {
+    property {
+        /* The class allows to sort stations into categories. */
+        class:                  "WAYP";
+        /* If no other NewGRF provides this class before us, we have to name it */
+        classname:              string(STR_NAME_STATCLASS);
+        /* Name of this particular station */
+        name:                   string(STR_NAME_STATION);
+        draw_pylon_tiles: 0;
+        hide_wire_tiles: 0xFF;
+        
+    }
+    graphics {
+        sprite_layouts: [STW_Rothe_Erde_L_X(0), STW_Rothe_Erde_L_Y(0)];
+        purchase: spriteset_STW_Rothe_Erde_L;
+        
+    }
+}
+
+
+spriteset(spriteset_STW_Rothe_Erde_R, "gfx/STW_Rothe_Erde_R/STW_Rothe_Erde_R_1x_8bpp.png")
+									{ template_waypoint_1x(0, 0)}
+				
+	alternative_sprites (spriteset_STW_Rothe_Erde_R, ZOOM_LEVEL_NORMAL, BIT_DEPTH_32BPP, "gfx/STW_Rothe_Erde_R/STW_Rothe_Erde_R_1x_32bpp.png", "gfx/STW_Rothe_Erde_R/STW_Rothe_Erde_R_1x_mask.png")
+									{ template_waypoint_1x(0, 0)}
+				
+	alternative_sprites (spriteset_STW_Rothe_Erde_R, ZOOM_LEVEL_IN_2X, BIT_DEPTH_32BPP, "gfx/STW_Rothe_Erde_R/STW_Rothe_Erde_R_2x_32bpp.png", "gfx/STW_Rothe_Erde_R/STW_Rothe_Erde_R_2x_mask.png")
+									{ template_waypoint_2x(0, 0)}
+				
+	alternative_sprites (spriteset_STW_Rothe_Erde_R, ZOOM_LEVEL_IN_4X, BIT_DEPTH_32BPP, "gfx/STW_Rothe_Erde_R/STW_Rothe_Erde_R_4x_32bpp.png", "gfx/STW_Rothe_Erde_R/STW_Rothe_Erde_R_4x_mask.png")
+									{ template_waypoint_4x(0, 0)}
+
+spritelayout STW_Rothe_Erde_R_X(a) {
+    ground {
+        sprite: 1012 + a; // prevent railtype offset
+    }
+    building {
+        sprite: spriteset_STW_Rothe_Erde_R (0); // first sprite in active spriteset
+        xoffset: 0;
+        yoffset: 0;
+        zoffset: 0;        
+        xextent: 16;
+        yextent: 4;
+        zextent: 4;
+        recolour_mode: RECOLOUR_REMAP;
+        palette:       PALETTE_USE_DEFAULT;
+    }
+}
+
+spritelayout STW_Rothe_Erde_R_Y(a) {
+    ground {
+        sprite: 1011 + a; // prevent railtype offset
+    }
+    building {
+        sprite: spriteset_STW_Rothe_Erde_R(1); // second sprite in active spriteset
+        xoffset: 0;
+        yoffset: 0;
+        zoffset: 0;        
+        xextent: 4;
+        yextent: 16;
+        zextent: 4;
+        recolour_mode: RECOLOUR_REMAP;
+        palette:       PALETTE_USE_DEFAULT;
+    }
+}
+
+item(FEAT_STATIONS, STW_Rothe_Erde_R) {
+    property {
+        /* The class allows to sort stations into categories. */
+        class:                  "WAYP";
+        /* If no other NewGRF provides this class before us, we have to name it */
+        classname:              string(STR_NAME_STATCLASS);
+        /* Name of this particular station */
+        name:                   string(STR_NAME_STATION);
+        draw_pylon_tiles: 0;
+        hide_wire_tiles: 0xFF;
+        
+    }
+    graphics {
+        sprite_layouts: [STW_Rothe_Erde_R_X(0), STW_Rothe_Erde_R_Y(0)];
+        purchase: spriteset_STW_Rothe_Erde_R;
+        
+    }
+}
+
+
+//##################
+//###STW_Giessen###				
+//##################
+
+
+
+spriteset(spriteset_STW_Giessen_L, "gfx/STW_Giessen_L/STW_Giessen_L_1x_8bpp.png")
+									{ template_waypoint_1x(0, 0)}
+				
+	alternative_sprites (spriteset_STW_Giessen_L, ZOOM_LEVEL_NORMAL, BIT_DEPTH_32BPP, "gfx/STW_Giessen_L/STW_Giessen_L_1x_32bpp.png", "gfx/STW_Giessen_L/STW_Giessen_L_1x_mask.png")
+									{ template_waypoint_1x(0, 0)}
+				
+	alternative_sprites (spriteset_STW_Giessen_L, ZOOM_LEVEL_IN_2X, BIT_DEPTH_32BPP, "gfx/STW_Giessen_L/STW_Giessen_L_2x_32bpp.png", "gfx/STW_Giessen_L/STW_Giessen_L_2x_mask.png")
+									{ template_waypoint_2x(0, 0)}
+				
+	alternative_sprites (spriteset_STW_Giessen_L, ZOOM_LEVEL_IN_4X, BIT_DEPTH_32BPP, "gfx/STW_Giessen_L/STW_Giessen_L_4x_32bpp.png", "gfx/STW_Giessen_L/STW_Giessen_L_4x_mask.png")
+									{ template_waypoint_4x(0, 0)}
+
+spritelayout STW_Giessen_L_X(a) {
+    ground {
+        sprite: 1012 + a; // prevent railtype offset
+    }
+    building {
+        sprite: spriteset_STW_Giessen_L (0); // first sprite in active spriteset
+        xoffset: 0;
+        yoffset: 12;
+        zoffset: 0;        
+        xextent: 16;
+        yextent: 4;
+        zextent: 4;
+        recolour_mode: RECOLOUR_REMAP;
+        palette:       PALETTE_USE_DEFAULT;
+    }
+}
+
+spritelayout STW_Giessen_L_Y(a) {
+    ground {
+        sprite: 1011 + a; // prevent railtype offset
+    }
+    building {
+        sprite: spriteset_STW_Giessen_L(1); // second sprite in active spriteset
+        xoffset: 12;
+        yoffset: 0;
+        zoffset: 0;        
+        xextent: 4;
+        yextent: 16;
+        zextent: 4;
+        recolour_mode: RECOLOUR_REMAP;
+        palette:       PALETTE_USE_DEFAULT;
+    }
+}
+
+item(FEAT_STATIONS, STW_Giessen_L) {
+    property {
+        /* The class allows to sort stations into categories. */
+        class:                  "WAYP";
+        /* If no other NewGRF provides this class before us, we have to name it */
+        classname:              string(STR_NAME_STATCLASS);
+        /* Name of this particular station */
+        name:                   string(STR_NAME_STATION);
+        draw_pylon_tiles: 0;
+        hide_wire_tiles: 0xFF;
+        
+    }
+    graphics {
+        sprite_layouts: [STW_Giessen_L_X(0), STW_Giessen_L_Y(0)];
+        purchase: spriteset_STW_Giessen_L;
+        
+    }
+}
+
+
+spriteset(spriteset_STW_Giessen_R, "gfx/STW_Giessen_R/STW_Giessen_R_1x_8bpp.png")
+									{ template_waypoint_1x(0, 0)}
+				
+	alternative_sprites (spriteset_STW_Giessen_R, ZOOM_LEVEL_NORMAL, BIT_DEPTH_32BPP, "gfx/STW_Giessen_R/STW_Giessen_R_1x_32bpp.png", "gfx/STW_Giessen_R/STW_Giessen_R_1x_mask.png")
+									{ template_waypoint_1x(0, 0)}
+				
+	alternative_sprites (spriteset_STW_Giessen_R, ZOOM_LEVEL_IN_2X, BIT_DEPTH_32BPP, "gfx/STW_Giessen_R/STW_Giessen_R_2x_32bpp.png", "gfx/STW_Giessen_R/STW_Giessen_R_2x_mask.png")
+									{ template_waypoint_2x(0, 0)}
+				
+	alternative_sprites (spriteset_STW_Giessen_R, ZOOM_LEVEL_IN_4X, BIT_DEPTH_32BPP, "gfx/STW_Giessen_R/STW_Giessen_R_4x_32bpp.png", "gfx/STW_Giessen_R/STW_Giessen_R_4x_mask.png")
+									{ template_waypoint_4x(0, 0)}
+
+spritelayout STW_Giessen_R_X(a) {
+    ground {
+        sprite: 1012 + a; // prevent railtype offset
+    }
+    building {
+        sprite: spriteset_STW_Giessen_R (0); // first sprite in active spriteset
+        xoffset: 0;
+        yoffset: 0;
+        zoffset: 0;        
+        xextent: 16;
+        yextent: 4;
+        zextent: 4;
+        recolour_mode: RECOLOUR_REMAP;
+        palette:       PALETTE_USE_DEFAULT;
+    }
+}
+
+spritelayout STW_Giessen_R_Y(a) {
+    ground {
+        sprite: 1011 + a; // prevent railtype offset
+    }
+    building {
+        sprite: spriteset_STW_Giessen_R(1); // second sprite in active spriteset
+        xoffset: 0;
+        yoffset: 0;
+        zoffset: 0;        
+        xextent: 4;
+        yextent: 16;
+        zextent: 4;
+        recolour_mode: RECOLOUR_REMAP;
+        palette:       PALETTE_USE_DEFAULT;
+    }
+}
+
+item(FEAT_STATIONS, STW_Giessen_R) {
+    property {
+        /* The class allows to sort stations into categories. */
+        class:                  "WAYP";
+        /* If no other NewGRF provides this class before us, we have to name it */
+        classname:              string(STR_NAME_STATCLASS);
+        /* Name of this particular station */
+        name:                   string(STR_NAME_STATION);
+        draw_pylon_tiles: 0;
+        hide_wire_tiles: 0xFF;
+        
+    }
+    graphics {
+        sprite_layouts: [STW_Giessen_R_X(0), STW_Giessen_R_Y(0)];
+        purchase: spriteset_STW_Giessen_R;
+        
+    }
+}
+
+
+//##################
+//###STW_Albstadt###				
+//##################
+
+
+
+spriteset(spriteset_STW_Albstadt_L, "gfx/STW_Albstadt_L/STW_Albstadt_L_1x_8bpp.png")
+									{ template_waypoint_1x(0, 0)}
+				
+	alternative_sprites (spriteset_STW_Albstadt_L, ZOOM_LEVEL_NORMAL, BIT_DEPTH_32BPP, "gfx/STW_Albstadt_L/STW_Albstadt_L_1x_32bpp.png", "gfx/STW_Albstadt_L/STW_Albstadt_L_1x_mask.png")
+									{ template_waypoint_1x(0, 0)}
+				
+	alternative_sprites (spriteset_STW_Albstadt_L, ZOOM_LEVEL_IN_2X, BIT_DEPTH_32BPP, "gfx/STW_Albstadt_L/STW_Albstadt_L_2x_32bpp.png", "gfx/STW_Albstadt_L/STW_Albstadt_L_2x_mask.png")
+									{ template_waypoint_2x(0, 0)}
+				
+	alternative_sprites (spriteset_STW_Albstadt_L, ZOOM_LEVEL_IN_4X, BIT_DEPTH_32BPP, "gfx/STW_Albstadt_L/STW_Albstadt_L_4x_32bpp.png", "gfx/STW_Albstadt_L/STW_Albstadt_L_4x_mask.png")
+									{ template_waypoint_4x(0, 0)}
+
+spritelayout STW_Albstadt_L_X(a) {
+    ground {
+        sprite: 1012 + a; // prevent railtype offset
+    }
+    building {
+        sprite: spriteset_STW_Albstadt_L (0); // first sprite in active spriteset
+        xoffset: 0;
+        yoffset: 12;
+        zoffset: 0;        
+        xextent: 16;
+        yextent: 4;
+        zextent: 4;
+        recolour_mode: RECOLOUR_REMAP;
+        palette:       PALETTE_USE_DEFAULT;
+    }
+}
+
+spritelayout STW_Albstadt_L_Y(a) {
+    ground {
+        sprite: 1011 + a; // prevent railtype offset
+    }
+    building {
+        sprite: spriteset_STW_Albstadt_L(1); // second sprite in active spriteset
+        xoffset: 12;
+        yoffset: 0;
+        zoffset: 0;        
+        xextent: 4;
+        yextent: 16;
+        zextent: 4;
+        recolour_mode: RECOLOUR_REMAP;
+        palette:       PALETTE_USE_DEFAULT;
+    }
+}
+
+item(FEAT_STATIONS, STW_Albstadt_L) {
+    property {
+        /* The class allows to sort stations into categories. */
+        class:                  "WAYP";
+        /* If no other NewGRF provides this class before us, we have to name it */
+        classname:              string(STR_NAME_STATCLASS);
+        /* Name of this particular station */
+        name:                   string(STR_NAME_STATION);
+        draw_pylon_tiles: 0;
+        hide_wire_tiles: 0xFF;
+        
+    }
+    graphics {
+        sprite_layouts: [STW_Albstadt_L_X(0), STW_Albstadt_L_Y(0)];
+        purchase: spriteset_STW_Albstadt_L;
+        
+    }
+}
+
+
+spriteset(spriteset_STW_Albstadt_R, "gfx/STW_Albstadt_R/STW_Albstadt_R_1x_8bpp.png")
+									{ template_waypoint_1x(0, 0)}
+				
+	alternative_sprites (spriteset_STW_Albstadt_R, ZOOM_LEVEL_NORMAL, BIT_DEPTH_32BPP, "gfx/STW_Albstadt_R/STW_Albstadt_R_1x_32bpp.png", "gfx/STW_Albstadt_R/STW_Albstadt_R_1x_mask.png")
+									{ template_waypoint_1x(0, 0)}
+				
+	alternative_sprites (spriteset_STW_Albstadt_R, ZOOM_LEVEL_IN_2X, BIT_DEPTH_32BPP, "gfx/STW_Albstadt_R/STW_Albstadt_R_2x_32bpp.png", "gfx/STW_Albstadt_R/STW_Albstadt_R_2x_mask.png")
+									{ template_waypoint_2x(0, 0)}
+				
+	alternative_sprites (spriteset_STW_Albstadt_R, ZOOM_LEVEL_IN_4X, BIT_DEPTH_32BPP, "gfx/STW_Albstadt_R/STW_Albstadt_R_4x_32bpp.png", "gfx/STW_Albstadt_R/STW_Albstadt_R_4x_mask.png")
+									{ template_waypoint_4x(0, 0)}
+
+spritelayout STW_Albstadt_R_X(a) {
+    ground {
+        sprite: 1012 + a; // prevent railtype offset
+    }
+    building {
+        sprite: spriteset_STW_Albstadt_R (0); // first sprite in active spriteset
+        xoffset: 0;
+        yoffset: 0;
+        zoffset: 0;        
+        xextent: 16;
+        yextent: 4;
+        zextent: 4;
+        recolour_mode: RECOLOUR_REMAP;
+        palette:       PALETTE_USE_DEFAULT;
+    }
+}
+
+spritelayout STW_Albstadt_R_Y(a) {
+    ground {
+        sprite: 1011 + a; // prevent railtype offset
+    }
+    building {
+        sprite: spriteset_STW_Albstadt_R(1); // second sprite in active spriteset
+        xoffset: 0;
+        yoffset: 0;
+        zoffset: 0;        
+        xextent: 4;
+        yextent: 16;
+        zextent: 4;
+        recolour_mode: RECOLOUR_REMAP;
+        palette:       PALETTE_USE_DEFAULT;
+    }
+}
+
+item(FEAT_STATIONS, STW_Albstadt_R) {
+    property {
+        /* The class allows to sort stations into categories. */
+        class:                  "WAYP";
+        /* If no other NewGRF provides this class before us, we have to name it */
+        classname:              string(STR_NAME_STATCLASS);
+        /* Name of this particular station */
+        name:                   string(STR_NAME_STATION);
+        draw_pylon_tiles: 0;
+        hide_wire_tiles: 0xFF;
+        
+    }
+    graphics {
+        sprite_layouts: [STW_Albstadt_R_X(0), STW_Albstadt_R_Y(0)];
+        purchase: spriteset_STW_Albstadt_R;
+        
+    }
+}
+
+
+//##################
+//###STW_Bottrop_Nord###				
+//##################
+
+
+
+spriteset(spriteset_STW_Bottrop_Nord_L, "gfx/STW_Bottrop_Nord_L/STW_Bottrop_Nord_L_1x_8bpp.png")
+									{ template_waypoint_1x(0, 0)}
+				
+	alternative_sprites (spriteset_STW_Bottrop_Nord_L, ZOOM_LEVEL_NORMAL, BIT_DEPTH_32BPP, "gfx/STW_Bottrop_Nord_L/STW_Bottrop_Nord_L_1x_32bpp.png", "gfx/STW_Bottrop_Nord_L/STW_Bottrop_Nord_L_1x_mask.png")
+									{ template_waypoint_1x(0, 0)}
+				
+	alternative_sprites (spriteset_STW_Bottrop_Nord_L, ZOOM_LEVEL_IN_2X, BIT_DEPTH_32BPP, "gfx/STW_Bottrop_Nord_L/STW_Bottrop_Nord_L_2x_32bpp.png", "gfx/STW_Bottrop_Nord_L/STW_Bottrop_Nord_L_2x_mask.png")
+									{ template_waypoint_2x(0, 0)}
+				
+	alternative_sprites (spriteset_STW_Bottrop_Nord_L, ZOOM_LEVEL_IN_4X, BIT_DEPTH_32BPP, "gfx/STW_Bottrop_Nord_L/STW_Bottrop_Nord_L_4x_32bpp.png", "gfx/STW_Bottrop_Nord_L/STW_Bottrop_Nord_L_4x_mask.png")
+									{ template_waypoint_4x(0, 0)}
+
+spritelayout STW_Bottrop_Nord_L_X(a) {
+    ground {
+        sprite: 1012 + a; // prevent railtype offset
+    }
+    building {
+        sprite: spriteset_STW_Bottrop_Nord_L (0); // first sprite in active spriteset
+        xoffset: 0;
+        yoffset: 12;
+        zoffset: 0;        
+        xextent: 16;
+        yextent: 4;
+        zextent: 4;
+        recolour_mode: RECOLOUR_REMAP;
+        palette:       PALETTE_USE_DEFAULT;
+    }
+}
+
+spritelayout STW_Bottrop_Nord_L_Y(a) {
+    ground {
+        sprite: 1011 + a; // prevent railtype offset
+    }
+    building {
+        sprite: spriteset_STW_Bottrop_Nord_L(1); // second sprite in active spriteset
+        xoffset: 12;
+        yoffset: 0;
+        zoffset: 0;        
+        xextent: 4;
+        yextent: 16;
+        zextent: 4;
+        recolour_mode: RECOLOUR_REMAP;
+        palette:       PALETTE_USE_DEFAULT;
+    }
+}
+
+item(FEAT_STATIONS, STW_Bottrop_Nord_L) {
+    property {
+        /* The class allows to sort stations into categories. */
+        class:                  "WAYP";
+        /* If no other NewGRF provides this class before us, we have to name it */
+        classname:              string(STR_NAME_STATCLASS);
+        /* Name of this particular station */
+        name:                   string(STR_NAME_STATION);
+        draw_pylon_tiles: 0;
+        hide_wire_tiles: 0xFF;
+        
+    }
+    graphics {
+        sprite_layouts: [STW_Bottrop_Nord_L_X(0), STW_Bottrop_Nord_L_Y(0)];
+        purchase: spriteset_STW_Bottrop_Nord_L;
+        
+    }
+}
+
+
+spriteset(spriteset_STW_Bottrop_Nord_R, "gfx/STW_Bottrop_Nord_R/STW_Bottrop_Nord_R_1x_8bpp.png")
+									{ template_waypoint_1x(0, 0)}
+				
+	alternative_sprites (spriteset_STW_Bottrop_Nord_R, ZOOM_LEVEL_NORMAL, BIT_DEPTH_32BPP, "gfx/STW_Bottrop_Nord_R/STW_Bottrop_Nord_R_1x_32bpp.png", "gfx/STW_Bottrop_Nord_R/STW_Bottrop_Nord_R_1x_mask.png")
+									{ template_waypoint_1x(0, 0)}
+				
+	alternative_sprites (spriteset_STW_Bottrop_Nord_R, ZOOM_LEVEL_IN_2X, BIT_DEPTH_32BPP, "gfx/STW_Bottrop_Nord_R/STW_Bottrop_Nord_R_2x_32bpp.png", "gfx/STW_Bottrop_Nord_R/STW_Bottrop_Nord_R_2x_mask.png")
+									{ template_waypoint_2x(0, 0)}
+				
+	alternative_sprites (spriteset_STW_Bottrop_Nord_R, ZOOM_LEVEL_IN_4X, BIT_DEPTH_32BPP, "gfx/STW_Bottrop_Nord_R/STW_Bottrop_Nord_R_4x_32bpp.png", "gfx/STW_Bottrop_Nord_R/STW_Bottrop_Nord_R_4x_mask.png")
+									{ template_waypoint_4x(0, 0)}
+
+spritelayout STW_Bottrop_Nord_R_X(a) {
+    ground {
+        sprite: 1012 + a; // prevent railtype offset
+    }
+    building {
+        sprite: spriteset_STW_Bottrop_Nord_R (0); // first sprite in active spriteset
+        xoffset: 0;
+        yoffset: 0;
+        zoffset: 0;        
+        xextent: 16;
+        yextent: 4;
+        zextent: 4;
+        recolour_mode: RECOLOUR_REMAP;
+        palette:       PALETTE_USE_DEFAULT;
+    }
+}
+
+spritelayout STW_Bottrop_Nord_R_Y(a) {
+    ground {
+        sprite: 1011 + a; // prevent railtype offset
+    }
+    building {
+        sprite: spriteset_STW_Bottrop_Nord_R(1); // second sprite in active spriteset
+        xoffset: 0;
+        yoffset: 0;
+        zoffset: 0;        
+        xextent: 4;
+        yextent: 16;
+        zextent: 4;
+        recolour_mode: RECOLOUR_REMAP;
+        palette:       PALETTE_USE_DEFAULT;
+    }
+}
+
+item(FEAT_STATIONS, STW_Bottrop_Nord_R) {
+    property {
+        /* The class allows to sort stations into categories. */
+        class:                  "WAYP";
+        /* If no other NewGRF provides this class before us, we have to name it */
+        classname:              string(STR_NAME_STATCLASS);
+        /* Name of this particular station */
+        name:                   string(STR_NAME_STATION);
+        draw_pylon_tiles: 0;
+        hide_wire_tiles: 0xFF;
+        
+    }
+    graphics {
+        sprite_layouts: [STW_Bottrop_Nord_R_X(0), STW_Bottrop_Nord_R_Y(0)];
+        purchase: spriteset_STW_Bottrop_Nord_R;
+        
+    }
+}
+
+
+
+
+//################################
+//###STW_Faller Reiterstellwerk###				
+//################################
+
+
+spriteset(spriteset_STW_Faller_R, "gfx/STW_Faller_R/STW_Faller_R_1x_8bpp.png")
+									{ template_waypoint_1x(0, 0)}
+				
+	alternative_sprites (spriteset_STW_Faller_R, ZOOM_LEVEL_NORMAL, BIT_DEPTH_32BPP, "gfx/STW_Faller_R/STW_Faller_R_1x_32bpp.png", "gfx/STW_Faller_R/STW_Faller_R_1x_mask.png")
+									{ template_waypoint_1x(0, 0)}
+				
+	alternative_sprites (spriteset_STW_Faller_R, ZOOM_LEVEL_IN_2X, BIT_DEPTH_32BPP, "gfx/STW_Faller_R/STW_Faller_R_2x_32bpp.png", "gfx/STW_Faller_R/STW_Faller_R_2x_mask.png")
+									{ template_waypoint_2x(0, 0)}
+				
+	alternative_sprites (spriteset_STW_Faller_R, ZOOM_LEVEL_IN_4X, BIT_DEPTH_32BPP, "gfx/STW_Faller_R/STW_Faller_R_4x_32bpp.png", "gfx/STW_Faller_R/STW_Faller_R_4x_mask.png")
+									{ template_waypoint_4x(0, 0)}
+
+
+spriteset(spriteset_STW_Faller_part1_R, "gfx/STW_Faller_R/STW_Faller_part1_R_1x_8bpp.png")
+									{ template_waypoint_1x(0, 0)}
+				
+	alternative_sprites (spriteset_STW_Faller_part1_R, ZOOM_LEVEL_NORMAL, BIT_DEPTH_32BPP, "gfx/STW_Faller_R/STW_Faller_part1_R_1x_32bpp.png", "gfx/STW_Faller_R/STW_Faller_part1_R_1x_mask.png")
+									{ template_waypoint_1x(0, 0)}
+				
+	alternative_sprites (spriteset_STW_Faller_part1_R, ZOOM_LEVEL_IN_2X, BIT_DEPTH_32BPP, "gfx/STW_Faller_R/STW_Faller_part1_R_2x_32bpp.png", "gfx/STW_Faller_R/STW_Faller_part1_R_2x_mask.png")
+									{ template_waypoint_2x(0, 0)}
+				
+	alternative_sprites (spriteset_STW_Faller_part1_R, ZOOM_LEVEL_IN_4X, BIT_DEPTH_32BPP, "gfx/STW_Faller_R/STW_Faller_part1_R_4x_32bpp.png", "gfx/STW_Faller_R/STW_Faller_part1_R_4x_mask.png")
+									{ template_waypoint_4x(0, 0)}
+
+spriteset(spriteset_STW_Faller_part2_R, "gfx/STW_Faller_R/STW_Faller_part2_R_1x_8bpp.png")
+									{ template_STW_Faller1_1x(0, 0)}
+				
+	alternative_sprites (spriteset_STW_Faller_part2_R, ZOOM_LEVEL_NORMAL, BIT_DEPTH_32BPP, "gfx/STW_Faller_R/STW_Faller_part2_R_1x_32bpp.png", "gfx/STW_Faller_R/STW_Faller_part2_R_1x_mask.png")
+									{ template_STW_Faller1_1x(0, 0)}
+				
+	alternative_sprites (spriteset_STW_Faller_part2_R, ZOOM_LEVEL_IN_2X, BIT_DEPTH_32BPP, "gfx/STW_Faller_R/STW_Faller_part2_R_2x_32bpp.png", "gfx/STW_Faller_R/STW_Faller_part2_R_2x_mask.png")
+									{ template_STW_Faller1_2x(0, 0)}
+				
+	alternative_sprites (spriteset_STW_Faller_part2_R, ZOOM_LEVEL_IN_4X, BIT_DEPTH_32BPP, "gfx/STW_Faller_R/STW_Faller_part2_R_4x_32bpp.png", "gfx/STW_Faller_R/STW_Faller_part2_R_4x_mask.png")
+									{ template_STW_Faller1_4x(0, 0)}
+									
+																	
+									
+									
+
+spritelayout STW_Faller_R_X(a) {
+    ground {
+        sprite: 1012 + a; // prevent railtype offset
+    }
+     
+
+    building {
+        sprite: spriteset_STW_Faller_part2_R (0); // first sprite in active spriteset
+        xoffset: 0;
+        yoffset: 12;
+        zoffset: 0;        
+        xextent: 16;
+        yextent: 4;
+        zextent: 16;
+        recolour_mode: RECOLOUR_REMAP;
+        palette:       PALETTE_USE_DEFAULT;
+    }
+     building {
+        sprite: spriteset_STW_Faller_part1_R (0); // first sprite in active spriteset
+        xoffset: 0;
+        yoffset: 0;
+        zoffset: 0;        
+        xextent: 16;
+        yextent: 4;
+        zextent: 4;
+        recolour_mode: RECOLOUR_REMAP;
+        palette:       PALETTE_USE_DEFAULT;
+    }       
+}
+
+spritelayout STW_Faller_R_Y(a) {
+    ground {
+        sprite: 1011 + a; // prevent railtype offset
+    }
+    building {
+        sprite: spriteset_STW_Faller_part1_R (1); // first sprite in active spriteset
+        xoffset: 0;
+        yoffset: 0;
+        zoffset: 0;        
+        xextent: 4;
+        yextent: 16;
+        zextent: 4;
+        recolour_mode: RECOLOUR_REMAP;
+        palette:       PALETTE_USE_DEFAULT;
+    }
+    building {
+        sprite: spriteset_STW_Faller_part2_R (1); // first sprite in active spriteset
+        xoffset: 12;
+        yoffset: 0;
+        zoffset: 0;        
+        xextent: 4;
+        yextent: 16;
+        zextent: 12;
+        recolour_mode: RECOLOUR_REMAP;
+        palette:       PALETTE_USE_DEFAULT;
+    }
+        
+}
+
+item(FEAT_STATIONS, STW_Faller_R) {
+    property {
+        /* The class allows to sort stations into categories. */
+        class:                  "WAYP";
+        /* If no other NewGRF provides this class before us, we have to name it */
+        classname:              string(STR_NAME_STATCLASS);
+        /* Name of this particular station */
+        name:                   string(STR_NAME_STATION);
+        draw_pylon_tiles: 0;
+        hide_wire_tiles: 0xFF;
+        
+    }
+    graphics {
+        sprite_layouts: [STW_Faller_R_X(0), STW_Faller_R_Y(0)];
+        purchase: spriteset_STW_Faller_R;
+        
+    }
+}
+
+
+
+
+spriteset(spriteset_STW_Faller_L, "gfx/STW_Faller_L/STW_Faller_L_1x_8bpp.png")
+									{ template_waypoint_1x(0, 0)}
+				
+	alternative_sprites (spriteset_STW_Faller_L, ZOOM_LEVEL_NORMAL, BIT_DEPTH_32BPP, "gfx/STW_Faller_L/STW_Faller_L_1x_32bpp.png", "gfx/STW_Faller_L/STW_Faller_L_1x_mask.png")
+									{ template_waypoint_1x(0, 0)}
+				
+	alternative_sprites (spriteset_STW_Faller_L, ZOOM_LEVEL_IN_2X, BIT_DEPTH_32BPP, "gfx/STW_Faller_L/STW_Faller_L_2x_32bpp.png", "gfx/STW_Faller_L/STW_Faller_L_2x_mask.png")
+									{ template_waypoint_2x(0, 0)}
+				
+	alternative_sprites (spriteset_STW_Faller_L, ZOOM_LEVEL_IN_4X, BIT_DEPTH_32BPP, "gfx/STW_Faller_L/STW_Faller_L_4x_32bpp.png", "gfx/STW_Faller_L/STW_Faller_L_4x_mask.png")
+									{ template_waypoint_4x(0, 0)}
+
+
+spriteset(spriteset_STW_Faller_part1_L, "gfx/STW_Faller_L/STW_Faller_part1_L_1x_8bpp.png")
+									{ template_STW_Faller1_1x(0, 0)}
+				
+	alternative_sprites (spriteset_STW_Faller_part1_L, ZOOM_LEVEL_NORMAL, BIT_DEPTH_32BPP, "gfx/STW_Faller_L/STW_Faller_part1_L_1x_32bpp.png", "gfx/STW_Faller_L/STW_Faller_part1_L_1x_mask.png")
+									{ template_STW_Faller1_1x(0, 0)}
+				
+	alternative_sprites (spriteset_STW_Faller_part1_L, ZOOM_LEVEL_IN_2X, BIT_DEPTH_32BPP, "gfx/STW_Faller_L/STW_Faller_part1_L_2x_32bpp.png", "gfx/STW_Faller_L/STW_Faller_part1_L_2x_mask.png")
+									{ template_STW_Faller1_2x(0, 0)}
+				
+	alternative_sprites (spriteset_STW_Faller_part1_L, ZOOM_LEVEL_IN_4X, BIT_DEPTH_32BPP, "gfx/STW_Faller_L/STW_Faller_part1_L_4x_32bpp.png", "gfx/STW_Faller_L/STW_Faller_part1_L_4x_mask.png")
+									{ template_STW_Faller1_4x(0, 0)}
+
+spriteset(spriteset_STW_Faller_part2_L, "gfx/STW_Faller_L/STW_Faller_part2_L_1x_8bpp.png")
+									{ template_waypoint_1x(0, 0)}
+				
+	alternative_sprites (spriteset_STW_Faller_part2_L, ZOOM_LEVEL_NORMAL, BIT_DEPTH_32BPP, "gfx/STW_Faller_L/STW_Faller_part2_L_1x_32bpp.png", "gfx/STW_Faller_L/STW_Faller_part2_L_1x_mask.png")
+									{ template_waypoint_1x(0, 0)}
+				
+	alternative_sprites (spriteset_STW_Faller_part2_L, ZOOM_LEVEL_IN_2X, BIT_DEPTH_32BPP, "gfx/STW_Faller_L/STW_Faller_part2_L_2x_32bpp.png", "gfx/STW_Faller_L/STW_Faller_part2_L_2x_mask.png")
+									{ template_waypoint_2x(0, 0)}
+				
+	alternative_sprites (spriteset_STW_Faller_part2_L, ZOOM_LEVEL_IN_4X, BIT_DEPTH_32BPP, "gfx/STW_Faller_L/STW_Faller_part2_L_4x_32bpp.png", "gfx/STW_Faller_L/STW_Faller_part2_L_4x_mask.png")
+									{ template_waypoint_4x(0, 0)}
+									
+																	
+									
+									
+
+spritelayout STW_Faller_L_X(a) {
+    ground {
+        sprite: 1012 + a; // prevent railtype offset
+    }
+     
+
+    building {
+        sprite: spriteset_STW_Faller_part2_L (0); // first sprite in active spriteset
+        xoffset: 0;
+        yoffset: 2;
+        zoffset: 0;        
+        xextent: 16;
+        yextent: 4;
+        zextent: 16;        
+        recolour_mode: RECOLOUR_REMAP;
+        palette:       PALETTE_USE_DEFAULT;
+    }
+     building {
+        sprite: spriteset_STW_Faller_part1_L (0); // first sprite in active spriteset
+        xoffset: 0;
+        yoffset: 14;
+        zoffset: 0;        
+        xextent: 16;
+        yextent: 4;
+        zextent: 16;
+        recolour_mode: RECOLOUR_REMAP;
+        palette:       PALETTE_USE_DEFAULT;
+    }       
+}
+
+spritelayout STW_Faller_L_Y(a) {
+    ground {
+        sprite: 1011 + a; // prevent railtype offset
+    }
+    building {
+        sprite: spriteset_STW_Faller_part1_L (1); // first sprite in active spriteset
+        xoffset: 14;
+        yoffset: 0;
+        zoffset: 0;        
+        xextent: 4;
+        yextent: 16;
+        zextent: 16;        
+        recolour_mode: RECOLOUR_REMAP;
+        palette:       PALETTE_USE_DEFAULT;
+    }
+    building {
+        sprite: spriteset_STW_Faller_part2_L (1); // first sprite in active spriteset
+        xoffset: 2;
+        yoffset: 0;
+        zoffset: 0;        
+        xextent: 4;
+        yextent: 16;
+        zextent: 16;
+        recolour_mode: RECOLOUR_REMAP;
+        palette:       PALETTE_USE_DEFAULT;
+    }
+        
+}
+
+item(FEAT_STATIONS, STW_Faller_L) {
+    property {
+        /* The class allows to sort stations into categories. */
+        class:                  "WAYP";
+        /* If no other NewGRF provides this class before us, we have to name it */
+        classname:              string(STR_NAME_STATCLASS);
+        /* Name of this particular station */
+        name:                   string(STR_NAME_STATION);
+        draw_pylon_tiles: 0;
+        hide_wire_tiles: 0xFF;
+        
+    }
+    graphics {
+        sprite_layouts: [STW_Faller_L_X(0), STW_Faller_L_Y(0)];
+        purchase: spriteset_STW_Faller_L;
+        
+    }
+}
